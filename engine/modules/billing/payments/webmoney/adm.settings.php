@@ -32,7 +32,7 @@ Class Payment
 		return $Form;
 	}
 
-	function Frm( $id, $config, $invoice, $currency, $desc )
+	function Form( $id, $config, $invoice, $currency, $desc )
 	{
 		return '
 			<form method="post" id="paysys_form" accept-charset="windows-1251" action="https://merchant.webmoney.ru/lmi/payment.asp">
