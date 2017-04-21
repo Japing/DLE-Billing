@@ -131,7 +131,14 @@ Class USER
 
 				$TimeLine = str_replace(
 					"{payment.js}",
-					"{tag: '{$Name}', convert: '{$Info['config']['convert']}', currency: '{$Info['config']['currency']}', min: '{$Info['config']['minimum']}', max: '{$Info['config']['max']}', obj: this}",
+					json_encode( array(
+						'tag'=> $Name,
+						'convert' => $Info['config']['convert'],
+						'currency' => $Info['config']['currency'],
+						'min' => $Info['config']['minimum'],
+						'max' => $Info['config']['max'],
+						'obj' => 'this'
+					)),
 					$TimeLine
 				);
 

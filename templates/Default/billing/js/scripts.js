@@ -10,15 +10,14 @@
 
 function BillingJS( lang, currency )
 {
-	this.ValidForm = true;
-	this.SelectPayment = {};
 	this.lang = lang;
 	this.currency = currency.split(',');
+	
+	this.SelectPayment = {};
 
 	this.Payment = function( payment )
 	{
-		$( this.SelectPayment.obj ).removeClass("bt_billing_active");
-		$( payment.obj ).addClass("bt_billing_active");
+		payment = jQuery.parseJSON(payment);
 
 		$("#billingPayСurrency").html(payment.currency);
 		$("#billingPayment").val( payment.tag );
@@ -31,11 +30,6 @@ function BillingJS( lang, currency )
 
 	this.Pay = function()
 	{
-		if( ! this.ValidForm )
-		{
-			return true;
-		}
-
 		var _error = '';
 
 		if( ! this.SelectPayment.tag )
