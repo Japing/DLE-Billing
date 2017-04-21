@@ -1,0 +1,128 @@
+.bt_icon
+{
+	width: 50px;
+	border: 1px solid #ccc;
+	border-radius: 100px;
+	background-color: white;
+	padding: 2px;
+	margin-top: -2px;
+}
+
+.bt_informer
+{
+	font-size: 18px;
+	height: 40px;
+	margin-top: 5px;
+}
+
+.bt_catalog
+{
+	display: block;
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid #d4d4d4;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border-color: #D4D4D4 #D4D4D4 #BCBCBC;
+	background: #f6f6f6;
+	background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed));
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+	background: -o-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+	background: -ms-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+	background: linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+	height: auto;
+}
+
+p.bt_catalog_desc
+{
+	padding: 5px;
+	padding-bottom: 0;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.money_plus
+{
+	color: green;
+	font-size: 13px;
+}
+
+.statistics_table
+{
+	width: 100%;
+	margin: 10px
+}
+
+.statistics_table a
+{
+	color: #333;
+	text-decoration:underline;
+}
+
+.statistics_table_desc
+{
+	color: #666666;
+}
+
+}
+.statistics_table h4
+{
+	font-size: 14px;
+	margin: 0;
+}
+.statistics_table td
+{
+	width: 25%;
+}
+
+.statistics_label
+{
+	float: right;
+	margin-right: 40px;
+	padding: 2px
+}
+
+.url-list
+{
+	min-height: 140px;
+}
+
+.url-item
+{
+	width: 142px;
+	height: 80px;
+	margin: 10px;
+	float: left;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.url-item input
+{
+	border: none;
+}
+
+.url-item span
+{
+	margin-top: -10px;
+	width: 20px;
+	position: absolute;
+	margin-left: 120px;
+	border: 1px solid #ccc;
+	background: white;
+	border-radius: 25px;
+	cursor: pointer;
+}
+
+.bt_table_right
+{
+	text-align: center;
+	border-right: 1px solid #ccc;
+	padding-right: 10px;
+	padding-left: 10px;
+}
