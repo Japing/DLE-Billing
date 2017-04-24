@@ -8,11 +8,12 @@
 =====================================================
 */
 
-function BillingJS( lang, currency )
+function BillingJS( lang, currency, format )
 {
 	this.lang = lang;
+	this.format = format;
 	this.currency = currency.split(',');
-	
+
 	this.SelectPayment = {};
 
 	this.Payment = function( payment )
@@ -64,7 +65,7 @@ function BillingJS( lang, currency )
 
 	this.Format = function( n )
 	{
-		return parseFloat(n).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1 ");
+		return parseFloat(n).toFixed(this.format).replace(/(\d)(?=(\d{3})+\.)/g, "$1 ");
 	}
 
 	this.Declension = function( number )

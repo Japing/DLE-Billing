@@ -449,7 +449,7 @@ HTML;
 			if( $_POST['clear_balance'] )
 			{
 				$this->Dashboard->LQuery->db->query( "UPDATE " . USERPREFIX . "_users
-														SET {$this->Dashboard->LQuery->config['fname']} = 0");
+														SET {$this->Dashboard->config['fname']} = 0");
 			}
 
 			$this->Dashboard->ThemeMsg( $this->Dashboard->lang['ok'], $this->Dashboard->lang['statistics_clean_1_ok'] );

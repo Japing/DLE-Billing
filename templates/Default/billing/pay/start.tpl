@@ -8,7 +8,7 @@
 		"Максимальная сумма оплаты через выбранную платежную систему - "
 	];
 
-	var BillingJS = new BillingJS( billingLang, '{module.currency}' );
+	var BillingJS = new BillingJS( billingLang, '{module.currency}', {module.format} );
 
 	$(function()
 	{

@@ -154,6 +154,7 @@ Class USER
 
 		$this->DevTools->ThemeSetElement( "{module.get.currency}", $this->DevTools->API->Declension( $GetSum ) );
 		$this->DevTools->ThemeSetElement( "{module.currency}", $this->DevTools->config['currency'] );
+		$this->DevTools->ThemeSetElement( "{module.format}", $this->DevTools->config['format'] == 'int' ? 0 : 2 );
 		$this->DevTools->ThemeSetElement( "{get.sum}", $GetSum );
 		$this->DevTools->ThemeSetElement( "{hash}", $this->DevTools->Hash() );
 
