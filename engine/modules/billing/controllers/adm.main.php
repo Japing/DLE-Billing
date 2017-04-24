@@ -127,7 +127,7 @@ Class ADMIN
 				$_save_urls[] = $value['start'] . '-' . $value['end'];
 			}
 
-			$_POST['save_con']['version'] = $this->Dashboard->config['version'];
+			$_POST['save_con']['version'] = '0.7';
 			$_POST['save_con']['informers'] = implode(",", $_POST['informers']);
 			$_POST['save_con']['urls'] = implode(",", $_save_urls);
 

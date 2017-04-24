@@ -80,6 +80,11 @@ Class ADMIN
 			}
 		}
 
+		if( ! $_SESSION['billingTime'] and ! isset( $_POST['sort'] ) )
+		{
+			$_SESSION['billingTime'] = 'month';
+		}
+
 		$this->_StartTime = intval( $_SESSION['billingTimeStart'] )
 								? $_SESSION['billingTimeStart']
 								: strtotime(date("Y-m-01"));
@@ -986,11 +991,11 @@ HTML;
 		{
 			if( $tag == $_GET['m'] )
 			{
-				$return_menu .= '<li style="min-width:90px"><a href="?mod=billing&c=statistics' . ( $tag ? '&m=' . $tag : '' ) . '" style="background: #e7e7e7">' . $name . '</a></li>';
+				$return_menu .= '<li style="width: 15%"><a href="?mod=billing&c=statistics' . ( $tag ? '&m=' . $tag : '' ) . '" style="background: #e7e7e7">' . $name . '</a></li>';
 			}
 			else
 			{
-				$return_menu .= '<li style="min-width:90px;"><a href="?mod=billing&c=statistics' . ( $tag ? '&m=' . $tag : '' ) . '">' . $name . '</a></li>';
+				$return_menu .= '<li style="width: 15%"><a href="?mod=billing&c=statistics' . ( $tag ? '&m=' . $tag : '' ) . '">' . $name . '</a></li>';
 			}
 		}
 
@@ -998,9 +1003,9 @@ HTML;
 		<div class="box">
 			<div class="box-content">
 				<div class="row box-section">
-					<ul class="settingsb">
+					<ul class="settingsb" style="width: 100%">
 			 			{$return_menu}
-			 			<li style="min-width:90px; margin-left: 50px"><a href="{$PHP_SELF}?mod=billing" class="tip" title="" data-original-title="{$this->Dashboard->lang['statistics_6']}"><i class="icon-reply"></i><br />{$this->Dashboard->lang['statistics_6_title']}</a></li>
+			 			<li style="width: 15%"><a href="{$PHP_SELF}?mod=billing" class="tip" title="" data-original-title="{$this->Dashboard->lang['statistics_6']}"><i class="icon-reply"></i><br />{$this->Dashboard->lang['statistics_6_title']}</a></li>
 					</ul>
 	     		</div>
 	   		</div>
@@ -1022,20 +1027,19 @@ HTML;
 								: "<a class=\"btn btn-default\" href=\"?mod=billing&c=statistics&date={$time}\">{$name}</a>";
 		}
 
-		return "
-		<form method='post'>
-			<div style='padding: 10px; text-align: center; border-bottom: 1px solid #ccc'>
-			    <div class='btn-group'>
-					{$_times_list}
-			    </div>
-				<span style='margin-left: 100px'>
-					" . $this->Dashboard->MakeCalendar("date_edit_start", date( "Y-m-j", $this->_StartTime ) ) . "
-						-
-					" . $this->Dashboard->MakeCalendar("date_edit_end", date( "Y-m-j", $this->_EndTime ) ) . "
-					" . $this->Dashboard->MakeButton("sort", $this->Dashboard->lang['statistics_show'], "green") . "
-				</span>
-			</div>
-		</form>";
+		return "<form method='post'>
+					<div style='padding: 10px; text-align: center; border-bottom: 1px solid #ccc'>
+					    <div class='btn-group'>
+							{$_times_list}
+					    </div>
+						<span style='margin-left: 100px'>
+							" . $this->Dashboard->MakeCalendar("date_edit_start", date( "Y-m-j", $this->_StartTime ) ) . "
+								-
+							" . $this->Dashboard->MakeCalendar("date_edit_end", date( "Y-m-j", $this->_EndTime ) ) . "
+							" . $this->Dashboard->MakeButton("sort", $this->Dashboard->lang['statistics_show'], "green") . "
+						</span>
+					</div>
+				</form>";
 	}
 }
 ?>
