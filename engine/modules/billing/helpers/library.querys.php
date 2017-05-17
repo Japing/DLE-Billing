@@ -210,7 +210,7 @@ Class LibraryQuerys
 
 	# Обновить статус квитанции по ID
 	#
-	function DbInvoiceUpdate( $invoice_id, $wait = false, $check_payer_requisites )
+	function DbInvoiceUpdate( $invoice_id, $wait = false, $check_payer_requisites = '' )
 	{
 		$time = ! $wait ? $this->_TIME : 0;
 
