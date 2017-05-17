@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class Payment
 {
@@ -49,6 +47,11 @@ Class Payment
 	function check_id( $data )
 	{
 		return $data["LMI_PAYMENT_NO"];
+	}
+
+	function check_payer_requisites( $data )
+	{
+		return 'WMID' . $data["LMI_PAYER_WM"];
 	}
 
 	function check_ok( $data )

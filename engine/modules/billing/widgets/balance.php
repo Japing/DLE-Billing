@@ -1,13 +1,11 @@
 <?php	if( ! defined( 'DATALIFEENGINE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 define( 'MODULE_DATA', ENGINE_DIR . "/data/billing" );
 
@@ -26,7 +24,7 @@ if ( $login )
 		$search[$billing_config['fname']] = number_format($search[$billing_config['fname']], 2, '.', '');
 	}
 
-	echo $search[$billing_config['fname']] ? $search[$billing_config['fname']] : $billing_config['format'];
+	echo $search[$billing_config['fname']];
 }
 else
 {
@@ -39,6 +37,6 @@ else
 		$member_id[$billing_config['fname']] = number_format($member_id[$billing_config['fname']], 2, '.', '');
 	}
 
-	echo $member_id[$billing_config['fname']] ? $member_id[$billing_config['fname']] : $billing_config['format'];
+	echo $member_id[$billing_config['fname']];
 }
 ?>

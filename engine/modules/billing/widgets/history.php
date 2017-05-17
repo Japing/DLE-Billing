@@ -1,13 +1,11 @@
 <?php	if( ! defined( 'DATALIFEENGINE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 define( 'MODULE_DATA', ENGINE_DIR . "/data/billing" );
 
@@ -48,24 +46,24 @@ if( ! $widjet )
 
     # Сумма
     #
-    if( $plus_min )
+    if( isset( $plus_min ) )
     {
         $params[] = 'history_plus >= \'' . $db->safesql( $plus_min ) . '\'';
     }
 
-    if( $plus_max )
+    if( isset( $plus_max ) )
     {
         $params[] = 'history_plus <= \'' . $db->safesql( $plus_max ) . '\'';
     }
 
-    if( $minus_min )
+    if( isset( $minus_min ) )
     {
         $params[] = 'history_minus >= \'' . $db->safesql( $minus_min ) . '\'';
     }
 
-    if( $minus_max )
+    if( isset( $minus_max ) )
     {
-        $params[] = 'history_plus <= \'' . $db->safesql( $minus_max ) . '\'';
+        $params[] = 'history_minus <= \'' . $db->safesql( $minus_max ) . '\'';
     }
 
     # Дата

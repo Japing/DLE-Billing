@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class Payment
 {
@@ -16,7 +14,7 @@ Class Payment
 	function Settings( $config )
 	{
 		$Form = array();
-		
+
 		$Form[] = array(
 			"Идентификатор магазина (ID):",
 			"Можно получить в <a href='https://new.interkassa.com/account/checkout' target='_blank'>личном кабинете</a>.",
@@ -36,10 +34,10 @@ Class Payment
 	{
 		return '
 			     <form name="payment" method="post" id="paysys_form" action="https://sci.interkassa.com/">
-					  <input type="hidden" name="ik_co_id" value="'.$config['login'].'" />
-					  <input type="hidden" name="ik_pm_no" value="'.$id.'" />
-					  <input type="hidden" name="ik_am" value="'.$invoice['invoice_pay'].'" />
-					  <input type="hidden" name="ik_desc" value="'.$desc.'" />
+					  <input type="hidden" name="ik_co_id" value="' . $config['login'] . '" />
+					  <input type="hidden" name="ik_pm_no" value="' . $id . '" />
+					  <input type="hidden" name="ik_am" value="' . $invoice['invoice_pay'] . '" />
+					  <input type="hidden" name="ik_desc" value="' . $desc . '" />
 					  <input type="submit" class="btn" value="Оплатить">
 				</form> ';
 

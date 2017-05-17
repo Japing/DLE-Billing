@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 $_Lang = include MODULE_PATH . '/lang/admin.php';
 
@@ -56,17 +54,19 @@ if( isset( $_POST['agree'] ) )
 
 	# config
 	#
+	$saveConfigFile = "<?PHP \n\n";
+	$saveConfigFile .= "#Edit from " . $_SERVER['REQUEST_URI'] . " " . langdate('d.m.Y H:i:s', $_TIME) . " \n\n";
+	$saveConfigFile .= "return array \n";
+	$saveConfigFile .= "( \n";
+
+	foreach ( $blank as $name => $value ) $saveConfigFile .= "'{$name}' => \"{$value}\",\n\n";
+
+	$saveConfigFile .= ");\n\n?>";
+
 	$handler = fopen( ENGINE_DIR . '/data/billing/config.php', "w" );
 
-	fwrite( $handler, "<?PHP \n\n" );
-	fwrite( $handler, "#Edit from " . $_SERVER['REQUEST_URI'] . " " . langdate('d.m.Y H:i:s', $_TIME) . " \n\n" );
-	fwrite( $handler, "return array \n" );
-	fwrite( $handler, "( \n" );
+	fwrite( $handler, $saveConfigFile );
 
-	foreach ( $blank as $name => $value ) fwrite( $handler, "'{$name}' => \"{$value}\",\n\n" );
-
-	fwrite( $handler, ");\n\n?>" );
-	fclose( $handler );
 	fclose( $handler );
 
 	# sql
@@ -96,9 +96,9 @@ if( isset( $_POST['agree'] ) )
 
 	$tableSchema[] = "CREATE TABLE `" . PREFIX . "_billing_history` (
 						  `history_id` int(11) NOT NULL AUTO_INCREMENT,
-						  `history_plugin` varchar(100) NOT NULL,
+						  `history_plugin` varchar(21) NOT NULL,
 						  `history_plugin_id` int(11) NOT NULL,
-						  `history_user_name` varchar(100) NOT NULL,
+						  `history_user_name` varchar(40) NOT NULL,
 						  `history_plus` text NOT NULL,
 						  `history_minus` text NOT NULL,
 						  `history_balance` text NOT NULL,
@@ -110,19 +110,21 @@ if( isset( $_POST['agree'] ) )
 
 	$tableSchema[] = "CREATE TABLE `" . PREFIX . "_billing_invoice` (
 						  `invoice_id` int(11) NOT NULL AUTO_INCREMENT,
-						  `invoice_paysys` varchar(100) NOT NULL,
-						  `invoice_user_name` varchar(100) NOT NULL,
+						  `invoice_paysys` varchar(21) NOT NULL,
+						  `invoice_user_name` varchar(40) NOT NULL,
 						  `invoice_get` text NOT NULL,
 						  `invoice_pay` text NOT NULL,
 						  `invoice_date_creat` int(11) NOT NULL,
 						  `invoice_date_pay` int(11) NOT NULL,
+						  `invoice_payer_requisites` varchar(40) NOT NULL,
+						  `invoice_payer_info` text NOT NULL,
 						  PRIMARY KEY (`invoice_id`)
-						) ENGINE=InnoDB  DEFAULT CHARSET=" . COLLATE . " AUTO_INCREMENT=1 ;";
+						) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;";
 
 	$tableSchema[] = "CREATE TABLE `" . PREFIX . "_billing_refund` (
 						  `refund_id` int(11) NOT NULL AUTO_INCREMENT,
 						  `refund_date` int(11) NOT NULL,
-						  `refund_user` varchar(100) NOT NULL,
+						  `refund_user` varchar(40) NOT NULL,
 						  `refund_summa` text NOT NULL,
 						  `refund_commission` text NOT NULL,
 						  `refund_requisites` text NOT NULL,
@@ -135,7 +137,12 @@ if( isset( $_POST['agree'] ) )
 		$db->super_query($table);
 	}
 
-	msg( "success", $_Lang['install_ok'], str_replace( '\\', "", $_Lang['dev']) . "<hr /><a href=\"\" class=\"btn btn-green\" style=\"margin:7px;\" type=\"submit\">{$_Lang['main_next']}</a>" );
+	if( ! file_exists(ENGINE_DIR . '/data/billing/config.php') )
+	{
+		msg( "error", $_Lang['install_bad'], "<div style=\"text-align: left\">" . $_Lang['install_error_config'] . "<pre><code>" . str_replace('<', '&lt;', $saveConfigFile) . "</code></pre></div><hr /><a href=\"\" class=\"btn btn-blue\" style=\"margin:7px;\" type=\"submit\">{$_Lang['main_re']}</a>" );
+	}
+
+	msg( "success", $_Lang['install_ok'], $_Lang['install_ok_text'] . "<hr /><a href=\"\" class=\"btn btn-green\" style=\"margin:7px;\" type=\"submit\">{$_Lang['main_next']}</a>" );
 }
 
 # Соглашение

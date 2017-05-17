@@ -1,13 +1,11 @@
 <?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class ADMIN
 {
@@ -55,7 +53,7 @@ Class ADMIN
 						if( $_Do )
 						{
 							$this->Dashboard->API->PlusMoney(
-								$login,
+								trim($login),
 								$_Sum,
 								$_Comment,
 								'users',
@@ -65,7 +63,7 @@ Class ADMIN
 						else
 						{
 							$this->Dashboard->API->MinusMoney(
-								$login,
+								trim($login),
 								$_Sum,
 								$_Comment,
 								'users',

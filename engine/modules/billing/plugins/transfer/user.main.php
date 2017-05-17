@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class USER
 {
@@ -157,11 +155,15 @@ Class USER
 		{
 			$TimeLine = $TplLine;
 
-			$TimeLine = str_replace("{date={$TplLineDate}}", $this->DevTools->ThemeChangeTime( $Value['history_date'], $TplLineDate ), $TimeLine);
-			$TimeLine = str_replace("{transfer.sum}", $Value['history_plus']
-														? "<font color=\"green\">+" . $Value['history_plus'] . ' ' . $Value['history_currency'] . "</font>"
-														: "<font color=\"red\">-" . $Value['history_minus'] . ' ' . $Value['history_currency'] . "</font>", $TimeLine);
-			$TimeLine = str_replace("{transfer.desc}", $Value['history_text'], $TimeLine);
+			$params = array(
+				'{date=' . $TplLineDate . '}' => $this->DevTools->ThemeChangeTime( $Value['history_date'], $TplLineDate ),
+				'{transfer.desc}' => $Value['history_text'],
+				'{transfer.sum}' => $Value['history_plus']
+										? '<font color="green">+' . $Value['history_plus'] . ' ' . $Value['history_currency'] . '</font>'
+										: '<font color="red">-' . $Value['history_minus'] . ' ' . $Value['history_currency'] . '</font>'
+			);
+
+			$TimeLine = str_replace(array_keys($params), array_values($params), $TimeLine);
 
 			$Line .= $TimeLine;
 		}

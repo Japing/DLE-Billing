@@ -1,13 +1,11 @@
-<?php	if( !defined( 'DATALIFEENGINE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'DATALIFEENGINE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class BillingAPI
 {
@@ -17,6 +15,9 @@ Class BillingAPI
 	var $_TIME = false;
 
 	var $hook_step = 0;
+
+	public $alert_pm = true;
+	public $alert_main = true;
 
 	function __construct( $db, $member_id, $billing_config, $_TIME )
 	{
@@ -61,6 +62,8 @@ Class BillingAPI
 	#
 	function MinusMoney( $user, $money, $desc, $plugin = 'api', $plugin_id = 0, $test_balance = true )
 	{
+		$this->hook_step += 1;
+
 		$user = $this->db->safesql( $user );
 		$money = $this->Convert( $money );
 
@@ -294,7 +297,7 @@ Class BillingAPI
 		# Уведомление об изменении баланса на сайте
 		# .. в лп
 		#
-		if( $this->config['mail_balance_pm'] )
+		if( $this->config['mail_balance_pm'] and $this->alert_pm )
 		{
 			$arrUser = $this->db->super_query( "SELECT user_id, email FROM " . USERPREFIX . "_users WHERE name='" . $user . "'" );
 
@@ -306,7 +309,7 @@ Class BillingAPI
 
 		# .. на email
 		#
-		if( $this->config['mail_balance_email'] )
+		if( $this->config['mail_balance_email'] and $this->alert_main )
 		{
 			if( ! $arrUser['email'] )
 			{

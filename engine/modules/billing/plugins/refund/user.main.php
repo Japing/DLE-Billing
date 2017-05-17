@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class USER
 {
@@ -65,7 +63,7 @@ Class USER
 			{
 				$Error = $this->DevTools->lang['refund_error_balance'];
 			}
-			
+
 			if( $Error )
 			{
 				return $this->DevTools->ThemeMsg( $this->DevTools->lang['pay_error_title'], $Error );
@@ -131,19 +129,20 @@ Class USER
 		foreach( $Data as $Value )
 		{
 			$TimeLine = $TplLine;
-			$TimeLine = str_replace("{date=" . $TplLineDate . "}", $this->DevTools->ThemeChangeTime( $Value['refund_date'], $TplLineDate ), $TimeLine);
-			$TimeLine = str_replace("{refund.requisites}", $Value['refund_requisites'], $TimeLine);
 
-			$TimeLine = str_replace("{refund.commission}",$Value['refund_commission'], $TimeLine);
-			$TimeLine = str_replace("{refund.commission.currency}", $this->DevTools->API->Declension( $Value['refund_commission'] ), $TimeLine);
+			$params = array(
+				'{date=' . $TplLineDate . '}' => $this->DevTools->ThemeChangeTime( $Value['refund_date'], $TplLineDate ),
+				'{refund.requisites}' => $Value['refund_requisites'],
+				'{refund.commission}' => $Value['refund_commission'],
+				'{refund.commission.currency}' => $this->DevTools->API->Declension( $Value['refund_commission'] ),
+				'{refund.sum}' => $Value['refund_summa'],
+				'{refund.sum.currency}' => $this->DevTools->API->Declension( $Value['refund_summa'] ),
+				'{refund.status}' => $Value['refund_date_return']
+										? '<font color="green">' . $this->DevTools->ThemeChangeTime( $Value['refund_date_return'], $TplLineDate ) . "</font>"
+										: '<font color="red">' . $this->DevTools->lang['refund_wait'] . '</font>'
+			);
 
-			$TimeLine = str_replace("{refund.sum}", $Value['refund_summa'], $TimeLine);
-			$TimeLine = str_replace("{refund.sum.currency}",  $this->DevTools->API->Declension( $Value['refund_summa'] ), $TimeLine);
-
-			$TimeLine = str_replace("{refund.status}", $Value['refund_date_return']
-														? "<font color=\"green\">" . $this->DevTools->ThemeChangeTime( $Value['refund_date_return'], $TplLineDate ) . "</a>"
-														: "<font color=\"red\">" . $this->DevTools->lang['refund_wait'] . "</a>",
-			$TimeLine);
+			$TimeLine = str_replace(array_keys($params), array_values($params), $TimeLine);
 
 			$Line .= $TimeLine;
 		}

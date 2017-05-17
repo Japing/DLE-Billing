@@ -126,3 +126,13 @@ p.bt_catalog_desc
 	padding-right: 10px;
 	padding-left: 10px;
 }
+
+.bt_lable_green
+{
+	background: #5cb85c;
+}
+
+.bt_lable_blue
+{
+	background: #377ca8;
+}

@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class ADMIN
 {
@@ -57,9 +55,9 @@ Class ADMIN
 		);
 
 		$tabs[] = array(
-						'id' => 'main',
-						'title' => $this->Dashboard->lang['tab_1'],
-						'content' => $this->Dashboard->Menu( $section )
+			'id' => 'main',
+			'title' => $this->Dashboard->lang['tab_1'],
+			'content' => $this->Dashboard->Menu( $section )
 		);
 
 		# Вкладка №2
@@ -127,10 +125,17 @@ Class ADMIN
 				$_save_urls[] = $value['start'] . '-' . $value['end'];
 			}
 
-			$_POST['save_con']['version'] = '0.7';
+			$_POST['save_con']['version'] = $this->Dashboard->version;
 			$_POST['save_con']['informers'] = implode(",", $_POST['informers']);
 			$_POST['save_con']['urls'] = implode(",", $_save_urls);
 
+			$exCurrency = explode(',', $_POST['save_con']['currency']);
+			
+			if( count( $exCurrency ) != 3 )
+			{
+				$_POST['save_con']['currency'] = $exCurrency[0] . ',' . $exCurrency[0] . ',' . $exCurrency[0];
+			}
+			
 			$this->Dashboard->SaveConfig("config", $_POST['save_con'] );
 			$this->Dashboard->ThemeMsg( $this->Dashboard->lang['ok'], $this->Dashboard->lang['save_settings'] );
 		}
@@ -191,7 +196,7 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_page'],
 			$this->Dashboard->lang['settings_page_desc'],
-			"{$this->Dashboard->dle['http_home_url']}<input name=\"save_con[page]\" class=\"edit bk\" type=\"text\" value=\"" . $this->Dashboard->config['page'] ."\" style=\"width: 100px\" required>.html"
+			"{$this->Dashboard->dle['http_home_url']}<input name=\"save_con[page]\" class=\"edit bk\" type=\"text\" value=\"" . $this->Dashboard->config['page'] ."\" style=\"width: 100px\">.html"
 		);
 
 		$this->Dashboard->ThemeAddStr(

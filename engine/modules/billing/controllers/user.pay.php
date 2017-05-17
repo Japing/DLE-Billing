@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class USER
 {
@@ -308,6 +306,11 @@ Class USER
 			#
 			$CheckID = $Paysys->check_id( $DATA );
 
+			if( in_array('check_payer_requisites', get_class_methods($Paysys) ) )
+			{
+				$CheckPayerRequisites = $Paysys->check_payer_requisites( $DATA );
+			}
+
 			if( ! intval( $CheckID ) )
 			{
 				$this->logging( 7 );
@@ -350,7 +353,7 @@ Class USER
 			{
 				$this->logging( 9, $CheckInvoice );
 
-				if( $this->RegisterPay( $Invoice ) )
+				if( $this->RegisterPay( $Invoice, $CheckPayerRequisites ) )
 				{
 					$this->logging( 10, $Invoice['invoice_get'] . ' ' . $this->DevTools->API->Declension( $Invoice['invoice_get'] ) );
 					$this->logging( 14 );
@@ -440,13 +443,13 @@ Class USER
 
 	# Изменить статус квитанции, зачислить платеж
 	#
-	private function RegisterPay( $Invoice )
+	private function RegisterPay( $Invoice, $CheckPayerRequisites )
 	{
 		$PaymentsArray = $this->Payments();
 
 		if( ! isset( $Invoice ) or $Invoice['invoice_date_pay'] ) return;
 
-		$this->DevTools->LQuery->DbInvoiceUpdate( $Invoice['invoice_id'] );
+		$this->DevTools->LQuery->DbInvoiceUpdate( $Invoice['invoice_id'], false, $CheckPayerRequisites );
 
 		# .. отправить уведомление
 		#

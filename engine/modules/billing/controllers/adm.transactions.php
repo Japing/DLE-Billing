@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class ADMIN
 {
@@ -98,7 +96,7 @@ Class ADMIN
 		{
 			$this->Dashboard->LQuery->DbWhere( array( "history_user_name = '{s}' " => $Get['user'] ) );
 
-			$PerPage = 30;
+			$PerPage = 20;
 			$Data = $this->Dashboard->LQuery->DbGetHistory( $Get['page'], $PerPage );
 		}
 

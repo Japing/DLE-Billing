@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 # Админ.панель
 #
@@ -35,6 +33,8 @@ Class Dashboard
 
 	# ..данные модуля
 	#
+	var $version = '0.7.1';
+
 	var $config = array();
 	var $lang = array();
 
@@ -85,15 +85,21 @@ Class Dashboard
 			$i++;
 		}
 
+		# Проверка версии
+		#
+		if( $this->version > $this->config['version'] )
+		{
+			require_once MODULE_PATH . '/controllers/adm.upgrade.php';
+		}
 		# Подключение страницы
 		#
-		if( file_exists( MODULE_PATH . '/controllers/adm.' . mb_strtolower( $c ) . '.php' ) )
+		else if( file_exists( MODULE_PATH . '/controllers/adm.' . mb_strtolower( $c ) . '.php' ) )
 		{
 			require_once MODULE_PATH . '/controllers/adm.' . mb_strtolower( $c ) . '.php';
 		}
 		# Подключение плагина
 		#
-		elseif( file_exists( MODULE_PATH . '/plugins/' . mb_strtolower( $c ) . '/adm.main.php' ) )
+		else if( file_exists( MODULE_PATH . '/plugins/' . mb_strtolower( $c ) . '/adm.main.php' ) )
 		{
 			require_once MODULE_PATH . '/plugins/' . mb_strtolower( $c ) . '/adm.main.php';
 		}
@@ -224,7 +230,7 @@ Class Dashboard
 	{
 		if( $this->Plugins ) return $this->Plugins;
 
-		$List = opendir( MODULE_PATH . "/plugins/" );
+		$List = opendir( MODULE_PATH . '/plugins/' );
 
 		while ( $name = readdir($List) )
 		{
@@ -278,7 +284,7 @@ Class Dashboard
 
 	# HTML
 	#
-	function GetSelect($options, $name, $selected, $multiple = false)
+	function GetSelect($options, $name, $selected = array(), $multiple = false)
 	{
 		$selected = is_array( $selected ) ? $selected : array( $selected );
 
@@ -347,7 +353,7 @@ Class Dashboard
 		return "<div class=\"well relative\"><span class=\"triangle-button " . $color . "\"><i class=\"" . $icon . "\"></i></span>" . $text . "</div>";
 	}
 
-	function MakeCalendar($name, $value, $style, $date = 'calendardate')
+	function MakeCalendar($name, $value, $style = '', $date = 'calendardate')
 	{
 		$style = $style ? "style='$style'" : "";
 
@@ -551,18 +557,19 @@ HTML;
 	function ThemeInfoUser( $login )
 	{
 		return "<div class=\"btn-group\">
-					<a href=\"". $this->dle['http_home_url'] ."user/".urldecode( $login )."\" target=\"_blank\"><i class=\"icon-user\" style=\"margin-left: 10px; margin-right: 5px; vertical-align: middle\"></i></a>
-					<a href=\"#\" target=\"_blank\" data-toggle=\"dropdown\" data-original-title=\"". $this->lang['history_user'] ."\" class=\"status-info tip\"><b>{$login}</b></a>
+					<a href=\"" . $this->dle['http_home_url'] . "user/" . urldecode( $login ) . "/\" target=\"_blank\"><i class=\"icon-user\" style=\"margin-left: 10px; margin-right: 5px; vertical-align: middle\"></i></a>
+					<a href=\"#\" target=\"_blank\" data-toggle=\"dropdown\" data-original-title=\"" . $this->lang['history_user'] . "\" class=\"status-info tip\"><b>{$login}</b></a>
 					<ul class=\"dropdown-menu text-left\">
-						<li><a href=\"". $this->dle['http_home_url'] ."user/".urldecode( $login )."\" target=\"_blank\"><i class=\"icon-user\"></i> ". $this->lang['user_profily'] ."</a></li>
-						<li><a href=\"". $PHP_SELF ."?mod=billing&c=users&login=".urldecode( $login )."\"><i class=\"icon-edit\"></i> ". $this->lang['user_balance'] ."</a></li>
+						<li><a href=\"" . $this->dle['http_home_url'] . "user/" . urldecode( $login ) . "/\" target=\"_blank\"><i class=\"icon-user\"></i> " . $this->lang['user_profily'] . "</a></li>
+						<li><a href=\"" . $PHP_SELF . "?mod=billing&c=users&login=" . urldecode( $login ) . "\"><i class=\"icon-money\"></i> " . $this->lang['user_balance'] . "</a></li>
+						<li><a href=\"" . $PHP_SELF . "?mod=editusers&action=list&search=yes&search_name=" . urldecode( $login ) . "\"><i class=\"icon-edit\"></i> " . $this->lang['user_edit_ap'] . "</a></li>
 						<li class=\"divider\"></li>
 						<li>
 							<div style=\"white-space: nowrap; text-align: center\">
-								<a href=\"". $PHP_SELF ."?mod=billing&c=statistics&m=users&p=user/".urldecode( $login )."\" class=\"tip\" data-original-title=\"". $this->lang['user_stats'] ."\"><i class=\"icon-bar-chart icon-2x\"></i></a>
-								<a href=\"". $PHP_SELF ."?mod=billing&c=transactions&p=user/".urldecode( $login )."\" class=\"tip\" data-original-title=\"". $this->lang['user_history'] ."\"><i class=\"icon-money icon-2x\"></i></a>
-								<a href=\"". $PHP_SELF ."?mod=billing&c=refund&p=user/".urldecode( $login )."\" class=\"tip\" data-original-title=\"". $this->lang['user_refund'] ."\"><i class=\"icon-credit-card icon-2x\"></i></a>
-								<a href=\"". $PHP_SELF ."?mod=billing&c=invoice&p=user/".urldecode( $login )."\" class=\"tip\" data-original-title=\"". $this->lang['user_invoice'] ."\"><i class=\"icon-folder-open-alt icon-2x\"></i></a>
+								<a href=\"" . $PHP_SELF . "?mod=billing&c=statistics&m=users&p=user/" . urldecode( $login ) . "\" class=\"tip\" data-original-title=\"" . $this->lang['user_stats'] . "\"><i class=\"icon-bar-chart icon-2x\"></i></a>
+								<a href=\"" . $PHP_SELF . "?mod=billing&c=transactions&p=user/" . urldecode( $login ) . "\" class=\"tip\" data-original-title=\"" . $this->lang['user_history'] . "\"><i class=\"icon-money icon-2x\"></i></a>
+								<a href=\"" . $PHP_SELF . "?mod=billing&c=refund&p=user/" . urldecode( $login ) . "\" class=\"tip\" data-original-title=\"" . $this->lang['user_refund'] . "\"><i class=\"icon-credit-card icon-2x\"></i></a>
+								<a href=\"" . $PHP_SELF . "?mod=billing&c=invoice&p=user/" . urldecode( $login ) . "\" class=\"tip\" data-original-title=\"" . $this->lang['user_invoice'] . "\"><i class=\"icon-folder-open-alt icon-2x\"></i></a>
 							</div>
 						</li>
 					</ul>
@@ -573,7 +580,7 @@ HTML;
 	#
 	function ThemeInfoUserXfields()
 	{
-		$answer = array(''=>"");
+		$answer = array('' => "");
 
 		$xprofile = file("engine/data/xprofile.txt");
 

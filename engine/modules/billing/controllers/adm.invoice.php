@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class ADMIN
 {
@@ -54,7 +52,7 @@ Class ADMIN
 				{
 					$Invoice = $this->Dashboard->LQuery->DbGetInvoiceByID( $id );
 
-					if( $Invoice['invoice_user_name'] and !$Invoice['invoice_date_pay'] )
+					if( $Invoice['invoice_user_name'] and ! $Invoice['invoice_date_pay'] )
 					{
 						$this->Dashboard->LQuery->DbInvoiceUpdate( $id );
 
@@ -122,6 +120,7 @@ Class ADMIN
 			}
 
 			$_WhereData["invoice_user_name LIKE '{s}'"] = $_POST['search_login'];
+			$_WhereData["invoice_payer_requisites LIKE '{s}'"] = $_POST['search_payer_requisites'];
 			$_WhereData["invoice_paysys = '{s}'"] = $_POST['search_paysys'];
 			$_WhereData["invoice_date_creat > '{s}'"] = strtotime( $_POST['search_date'] );
 			$_WhereData["invoice_date_creat < '{s}'"] = strtotime( $_POST['search_date_to'] );
@@ -168,14 +167,20 @@ Class ADMIN
 		{
 			$this->Dashboard->ThemeAddTR( array(
 				$Value['invoice_id'],
-				$Value['invoice_pay'] . ' ' . $GetPaysysArray[$Value['invoice_paysys']]['config']['currency'],
-				$Value['invoice_get'] . ' ' . $this->Dashboard->API->Declension( $Value['invoice_pay'] ),
+				$Value['invoice_pay'] . '&nbsp;' . $GetPaysysArray[$Value['invoice_paysys']]['config']['currency'],
+				$Value['invoice_get'] . '&nbsp;' . $this->Dashboard->API->Declension( $Value['invoice_pay'] ),
 				$this->Dashboard->ThemeChangeTime( $Value['invoice_date_creat'] ),
 				$this->Dashboard->ThemeInfoBilling( $GetPaysysArray[$Value['invoice_paysys']] ),
 				$this->Dashboard->ThemeInfoUser( $Value['invoice_user_name'] ),
-				"<center>". ( $Value['invoice_date_pay'] ? "<span class=\"label\" style=\"background: #5cb85c\">{$this->Dashboard->lang['invoice_payok']}</span>" : "<span class=\"label\" style=\"background: #377ca8\">".$this->Dashboard->lang['invoice_status_3']."</span>" ) . "</center>",
-				( $Value['invoice_date_pay'] ? $this->Dashboard->lang['invoice_was_pay'] . $this->Dashboard->ThemeChangeTime( $Value['invoice_date_pay'] ) : "" ),
-				"<center>".$this->Dashboard->MakeCheckBox("massact_list[]", false, $Value['invoice_id'], false)."</center>"
+				'<center>' .
+					( $Value['invoice_date_pay']
+						? '<span class="label bt_lable_green">' . $this->Dashboard->ThemeChangeTime( $Value['invoice_date_pay'] ) . '</span>'
+						: '<span class="label bt_lable_blue">' . $this->Dashboard->lang['refund_wait'] . '</span>' ) .
+				'</center>',
+				$Value['invoice_payer_requisites'],
+				'<center>' .
+					$this->Dashboard->MakeCheckBox("massact_list[]", false, $Value['invoice_id'], false) .
+				'</center>'
 			) );
 		}
 
@@ -242,6 +247,12 @@ Class ADMIN
 			$this->Dashboard->lang['search_user'],
 			$this->Dashboard->lang['search_user_desc'],
 			"<input name=\"search_login\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_login'] ."\" style=\"width: 100%\">"
+		);
+
+		$this->Dashboard->ThemeAddStr(
+			$this->Dashboard->lang['invoice_payer_requisites'],
+			$this->Dashboard->lang['invoice_payer_requisites_desc'],
+			"<input name=\"search_payer_requisites\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_payer_requisites'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(

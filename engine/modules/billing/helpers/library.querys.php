@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class LibraryQuerys
 {
@@ -47,16 +45,6 @@ Class LibraryQuerys
 											WHERE name = '" . $this->db->safesql( $search_str ) . "' or
 											      email = '" . $this->db->safesql( $search_str ) . "'" );
 	}
-
-	// # Поиск пользователя по ID
-	// #
-	// function DbSearchUserById( $id )
-	// {
-	// 	$user = $this->db->super_query( "SELECT * FROM " . USERPREFIX . "_users
-	// 										WHERE user_id = '" . intval( $id ) . "'" );
-	//
-	// 	return $user;
-	// }
 
 	# Поиск запроса вывода средств по ID
 	#
@@ -129,11 +117,11 @@ Class LibraryQuerys
 	#
 	function DbNewInvoiceSumm()
 	{
-		$sqlInvoice = $this->db->super_query( "SELECT SUM(invoice_get) as summa
+		$sqlInvoice = $this->db->super_query( "SELECT SUM(invoice_get) as `sum`
 													FROM " . USERPREFIX . "_billing_invoice
 													WHERE invoice_get > '0' and invoice_date_pay > " . mktime(0,0,0) );
 
-		return $sqlInvoice['summa'] ? $sqlInvoice['summa'] : 0;
+		return $sqlInvoice['sum'] ? $sqlInvoice['sum'] : 0;
 	}
 
 	# Список квитанций
@@ -222,12 +210,13 @@ Class LibraryQuerys
 
 	# Обновить статус квитанции по ID
 	#
-	function DbInvoiceUpdate( $invoice_id, $wait = false )
+	function DbInvoiceUpdate( $invoice_id, $wait = false, $check_payer_requisites )
 	{
 		$time = ! $wait ? $this->_TIME : 0;
 
 		$this->db->super_query( "UPDATE " . USERPREFIX . "_billing_invoice
-									SET invoice_date_pay = '" . $time . "'
+									SET invoice_date_pay = '" . $time . "',
+										invoice_payer_requisites = '" . $check_payer_requisites . "'
 									WHERE invoice_id = '" . intval( $invoice_id ) . "'" );
 
 		return;

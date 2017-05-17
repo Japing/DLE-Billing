@@ -1,13 +1,11 @@
-<?php	if( !defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
-/*
-=====================================================
- Billing
------------------------------------------------------
- evgeny.tc@gmail.com
------------------------------------------------------
- This code is copyrighted
-=====================================================
-*/
+<?php	if( ! defined( 'BILLING_MODULE' ) ) die( "Hacking attempt!" );
+/**
+ * DLE Billing
+ *
+ * @link          https://github.com/mr-Evgen/dle-billing-module
+ * @author        dle-billing.ru <evgeny.tc@gmail.com>
+ * @copyright     Copyright (c) 2012-2017, mr_Evgen
+ */
 
 Class USER
 {
@@ -15,7 +13,7 @@ Class USER
 	{
 		# Проверка авторизации
 		#
-		if( ! $this->DevTools->member_id['name'] ) 
+		if( ! $this->DevTools->member_id['name'] )
 		{
 			return $this->DevTools->lang['pay_need_login'];
 		}
@@ -40,14 +38,18 @@ Class USER
 		foreach( $Data as $Value )
 		{
 			$TimeLine = $TplLine;
-			
-			$TimeLine = str_replace("{date={$TplLineDate}}", $this->DevTools->ThemeChangeTime( $Value['history_date'], $TplLineDate ), $TimeLine);
-			$TimeLine = str_replace("{comment}", $Value['history_text'], $TimeLine);
-			$TimeLine = str_replace("{plugin}", $Value['history_plugin'], $TimeLine);
-			$TimeLine = str_replace("{plugin.id}", $Value['history_plugin_id'], $TimeLine);
-			$TimeLine = str_replace("{balance}", "{$Value['history_balance']} {$this->DevTools->API->Declension( $Value['history_balance'] )}", $TimeLine);
-			$TimeLine = str_replace("{sum}", $Value['history_plus']	? "<font color=\"green\">+{$Value['history_plus']} {$Value['history_currency']}</font>"
-																		: "<font color=\"red\">-{$Value['history_minus']} {$Value['history_currency']}</font>", $TimeLine);
+
+			$params = array(
+			    '{date=' . $TplLineDate . '}' => $this->DevTools->ThemeChangeTime( $Value['history_date'], $TplLineDate ),
+				'{comment}' => $Value['history_text'],
+				'{plugin}' => $Value['history_plugin'],
+				'{plugin.id}' => $Value['history_plugin_id'],
+				'{balance}' => $Value['history_balance'] . ' ' . $this->DevTools->API->Declension( $Value['history_balance'] ),
+				'{sum}' => $Value['history_plus']	? "<font color=\"green\">+{$Value['history_plus']} {$Value['history_currency']}</font>"
+													: "<font color=\"red\">-{$Value['history_minus']} {$Value['history_currency']}</font>"
+			);
+
+			$TimeLine = str_replace(array_keys($params), array_values($params), $TimeLine);
 
 			$Line .= $TimeLine;
 		}
