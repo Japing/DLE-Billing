@@ -27,6 +27,12 @@ Class Payment
 			"<input name=\"save_con[secret]\" class=\"edit bk\" type=\"password\" value=\"" . $config['secret'] ."\" style=\"width: 100%\">"
 		);
 
+		$Form[] = array(
+			"Валюта платежа:",
+			"Например: RUB или UAH",
+			"<input name=\"save_con[paycurrency]\" class=\"edit bk\" type=\"text\" value=\"" . $config['paycurrency'] ."\" style=\"width: 100%\">"
+		);
+		
 		return $Form;
 	}
 
@@ -35,6 +41,7 @@ Class Payment
 		return '
 			     <form name="payment" method="post" id="paysys_form" action="https://sci.interkassa.com/">
 					  <input type="hidden" name="ik_co_id" value="' . $config['login'] . '" />
+					  <input type="hidden" name="ik_cur" value="' . $config['paycurrency'] . '" />
 					  <input type="hidden" name="ik_pm_no" value="' . $id . '" />
 					  <input type="hidden" name="ik_am" value="' . $invoice['invoice_pay'] . '" />
 					  <input type="hidden" name="ik_desc" value="' . $desc . '" />
