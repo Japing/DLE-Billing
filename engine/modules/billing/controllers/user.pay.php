@@ -257,8 +257,6 @@ Class USER
 		header($_SERVER['SERVER_PROTOCOL'].' HTTP 200 OK', true, 200);
 		header( "Content-type: text/html; charset=" . $this->DevTools->dle['charset'] );
 
-		@http_response_code(200);
-
 		$SecretKey = $this->DevTools->LQuery->parsVar( $GET['key'], '~[^a-z|0-9|\-|.]*~is' );
 		$GetPaysys = $this->DevTools->LQuery->parsVar( $GET['payment'], '~[^a-z|0-9|\-|.]*~is' );
 
