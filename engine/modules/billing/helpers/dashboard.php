@@ -33,7 +33,7 @@ Class Dashboard
 
 	# ..данные модуля
 	#
-	var $version = '0.7.1';
+	var $version = '0.7.2';
 
 	var $config = array();
 	var $lang = array();
@@ -148,19 +148,22 @@ Class Dashboard
 							  : '<div class="tab-pane" id="' . $tabs[$i]['id'] . '">' . $tabs[$i]['content'] . '</div>';
 		}
 
-		return '<div class="box">
-				    <div class="box-header">
-						<ul class="nav nav-tabs nav-tabs-left">' . $titles . '</ul>
+		return '
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				    <ul class="nav nav-tabs nav-tabs-solid">
+						' . $titles . '
+					</ul>
+				</div>
+				<form action="" method="post">
+					<div class="table-responsive">	
+						<div class="tab-content">
+							' . $contents . '
+						</div>
+						' .  $footer . '
 					</div>
-		            <div class="box-content">
-						<form action="" method="post">
-			                <div class="tab-content">
-							 	' . $contents . '
-							</div>
-							' .  $footer . '
-						</form>
-					</div>
-				</div>';
+				</form>
+		</div>';
 	}
 
 	# Собрать меню
@@ -171,7 +174,7 @@ Class Dashboard
 
 		if( ! count( $sectins ) ) return '<div style="text-align: center; padding: 40px">' . $this->lang['null'] . '</div>';
 
-		$answer = '';
+		$answer = '<div class="list-bordered">';
 		$num = 0;
 
 		for( $i = 0; $i < count($sectins); $i++ )
@@ -185,16 +188,14 @@ Class Dashboard
 				 $answer .= '<div class="row box-section">';
 			}
 
-			$answer .= '<div class="col-md-6" ' . ( $status && $sectins[$i]['on'] != '1' ? 'style="opacity: 0.5"': '' ) . '>
-						  <div class="news with-icons">
-								<div class="avatar"><img src="'. $sectins[$i]['icon'] .'"></div>
-								<div class="news-content">
-									<div class="news-title"><a href="'. $sectins[$i]['link'] .'">'. $sectins[$i]['title'] .'</a></div>
-									<div class="news-text">
-									  <a href="'. $sectins[$i]['link'] .'">'. $sectins[$i]['desc'] .'</a>
-									</div>
-								</div>
-						  </div>
+			$answer .= '<div class="col-sm-6 media-list media-list-linked" ' . ( $status && $sectins[$i]['on'] != '1' ? 'style="opacity: 0.5"': '' ) . '>
+						  <a class="media-link" href="'. $sectins[$i]['link'] .'">
+							<div class="media-left"><img src="'. $sectins[$i]['icon'] .'" class="img-lg section_icon"></div>
+							<div class="media-body">
+								<h6 class="media-heading  text-semibold">'. $sectins[$i]['title'] .'</h6>
+								<span class="text-muted text-size-small">'. $sectins[$i]['desc'] .'</span>
+							</div>
+						  </a>
 						</div>';
 
 			if( $num % 2 == 0 or $num == count($sectins))
@@ -203,7 +204,7 @@ Class Dashboard
 			}
 		}
 
-		return $answer;
+		return $answer . '</div>';
 	}
 
 	# Плашка информации о плагине
@@ -219,9 +220,7 @@ Class Dashboard
 				" . ( $link ? "</a>" : '' ) . "
 			</span>
 			<span style=\"font-size: 18px\">{$ini['title']}</span>
-			<br />{$ini['desc']}",
-			$icon,
-			$status ? 'green' : 'red' );
+			<br />{$ini['desc']}" );
 	}
 
 	# Массив плагинов
@@ -288,7 +287,7 @@ Class Dashboard
 	{
 		$selected = is_array( $selected ) ? $selected : array( $selected );
 
-		$output = "<select class=\"uniform\" style=\"min-width:140px\" name=\"$name\" " . ( $multiple ? "multiple" : "" ) . ">\r\n";
+		$output = "<select class=\"uniform\" name=\"$name\" " . ( $multiple ? "multiple" : "" ) . ">\r\n";
 
 		foreach ( $options as $value => $description )
 		{
@@ -336,7 +335,7 @@ Class Dashboard
 	function MakeCheckBox($name, $selected, $value = 1, $class = true )
 	{
 		$selected = $selected ? "checked" : "";
-		$class = $class ? "iButton-icons-tab" : "";
+		$class = $class ? "icheck" : ""; #iButton-icons-tab
 
 		return "<input class=\"$class\" type=\"checkbox\" name=\"$name\" value=\"$value\" {$selected}>";
 	}
@@ -345,19 +344,19 @@ Class Dashboard
 	{
 		$hash = $hash ? "<input type=\"hidden\" name=\"user_hash\" value=\"" . $this->hash . "\" />" : "";
 
-		return "<input class=\"btn btn-" . $color . "\" style=\"margin:7px;\" name=\"" . $name . "\" " . $id . " type=\"submit\" value=\"" . $title . "\">" . $hash;
+		return "<input class=\"btn bg-teal btn-raised position-left legitRipple " . $color . "\" style=\"margin:7px;\" name=\"" . $name . "\" " . $id . " type=\"submit\" value=\"" . $title . "\">" . $hash;
 	}
 
-	function MakeMsgInfo($text, $icon, $color)
+	function MakeMsgInfo($text)
 	{
-		return "<div class=\"well relative\"><span class=\"triangle-button " . $color . "\"><i class=\"" . $icon . "\"></i></span>" . $text . "</div>";
+		return "<div class=\"well relative\">" . $text . "</div>";
 	}
 
 	function MakeCalendar($name, $value, $style = '', $date = 'calendardate')
 	{
 		$style = $style ? "style='$style'" : "";
 
-		return "<input data-rel=\"" . $date . "\" type=\"text\" name=\"" . $name . "\" id=\"" . $name . "\" value=\"" . $value . "\" class=\"edit bk\" " . $style . ">";
+		return "<input data-rel=\"" . $date . "\" type=\"text\" name=\"" . $name . "\" id=\"" . $name . "\" value=\"" . $value . "\" class=\"form-control\" " . $style . ">";
 	}
 
 	function MakeICheck($name, $selected)
@@ -369,9 +368,9 @@ Class Dashboard
 				</center>";
 	}
 
-	function ThemePadded( $text, $box = 'box-footer', $position = 'center' )
+	function ThemePadded( $text )
 	{
-		return "<div class=\"". $box ." padded\" style=\"text-align: ". $position ."\">". $text ."</div>";
+		return "<div class=\"panel-footer\"> ". $text ." </div>";
 	}
 
 	# Заглушка
@@ -382,25 +381,29 @@ Class Dashboard
 
 		$linkText = $link ? $this->lang['main_next'] : $this->lang['main_back'];
 
-		echo <<<HTML
-	<div class="box">
-	  <div class="box-header">
-		<div class="title">{$title}</div>
-	  </div>
-	  <div class="box-content">
-		<div class="row box-section">
+		$return = <<<HTML
+		
+<div class="content">
+	<div class="alert alert-success alert-styled-left alert-arrow-left alert-component message_box">
+		<h4>{$title}</h4>
+		<div class="panel-body">
 			<table width="100%">
-				<tr>
-					<td height="100" class="text-center settingstd">{$text}</td>
+				<tbody><tr>
+					<td height="80" class="text-center">{$text}</td>
 				</tr>
-			</table>
+			</tbody></table>
 		</div>
-		<div class="row box-section"><div class="col-md-12 text-center"><a class="btn btn btn-default" href="{$link}">{$linkText}</a></div></div>
-	  </div>
-	</div>
+		<div class="panel-footer">
+			<div class="text-center">
+				<a class="btn btn-sm bg-teal btn-raised position-left legitRipple" href="{$link}">{$linkText}</a>
+			</div>
+		</div>
+	</div>					
+</div>
+		
 HTML;
 
-		echo $this->ThemeEchoFoother();
+		echo $return . $this->ThemeEchoFoother();
 		die();
 	}
 
@@ -446,13 +449,16 @@ HTML;
 	{
 		if( ! $this->str_table_num ) return;
 
-		$answer = "<table width=\"100%\" class=\"table table-normal\">";
+		$answer = "<table width=\"100%\" class=\"table table-striped\">";
 
 		for( $i = 1; $i <= $this->str_table_num; $i++ )
 		{
 			$answer .= "<tr>
-							<td class=\"col-xs-10 col-sm-6 col-md-7\"><h6>" . $this->str_table[$i]['title'] . "</h6><span class=\"note large\">" . $this->str_table[$i]['desc'] . "</span></td>
-							<td class=\"col-xs-2 col-md-5 settingstd\">" . $this->str_table[$i]['field'] . "</td>
+							<td class=\"col-xs-6 col-sm-6 col-md-7\">
+								<h8 class=\"media-heading text-semibold\">" . $this->str_table[$i]['title'] . "</h8>
+								<span class=\"text-muted text-size-small hidden-xs\">" . $this->str_table[$i]['desc'] . "</span>
+							</td>
+							<td class=\"col-xs-6 col-sm-6 col-md-5\">" . $this->str_table[$i]['field'] . "</td>
 						</tr>";
 		}
 
@@ -557,22 +563,15 @@ HTML;
 	function ThemeInfoUser( $login )
 	{
 		return "<div class=\"btn-group\">
-					<a href=\"" . $this->dle['http_home_url'] . "user/" . urldecode( $login ) . "/\" target=\"_blank\"><i class=\"icon-user\" style=\"margin-left: 10px; margin-right: 5px; vertical-align: middle\"></i></a>
+					<a href=\"" . $this->dle['http_home_url'] . "user/" . urldecode( $login ) . "/\" target=\"_blank\"><i class=\"fa fa-user\" style=\"margin-left: 10px; margin-right: 5px; vertical-align: middle\"></i></a>
 					<a href=\"#\" target=\"_blank\" data-toggle=\"dropdown\" data-original-title=\"" . $this->lang['history_user'] . "\" class=\"status-info tip\"><b>{$login}</b></a>
 					<ul class=\"dropdown-menu text-left\">
-						<li><a href=\"" . $this->dle['http_home_url'] . "user/" . urldecode( $login ) . "/\" target=\"_blank\"><i class=\"icon-user\"></i> " . $this->lang['user_profily'] . "</a></li>
-						<li><a href=\"" . $PHP_SELF . "?mod=billing&c=users&login=" . urldecode( $login ) . "\"><i class=\"icon-money\"></i> " . $this->lang['user_balance'] . "</a></li>
-						<li><a href=\"" . $PHP_SELF . "?mod=editusers&action=list&search=yes&search_name=" . urldecode( $login ) . "\"><i class=\"icon-edit\"></i> " . $this->lang['user_edit_ap'] . "</a></li>
+						<li><a href=\"" . $PHP_SELF . "?mod=billing&c=statistics&m=users&p=user/" . urldecode( $login ) . "\"><i class=\"fa fa-bar-chart\"></i> " . $this->lang['user_stats'] . "</a></li>
+						<li><a href=\"" . $PHP_SELF . "?mod=billing&c=transactions&p=user/" . urldecode( $login ) . "\"><i class=\"fa fa-money\"></i> " . $this->lang['user_history'] . "</a></li>
+						<li><a href=\"" . $PHP_SELF . "?mod=billing&c=refund&p=user/" . urldecode( $login ) . "\"><i class=\"fa fa-credit-card\"></i> " . $this->lang['user_refund'] . "</a></li>
+						<li><a href=\"" . $PHP_SELF . "?mod=billing&c=invoice&p=user/" . urldecode( $login ) . "\"><i class=\"fa fa-folder-open-o\"></i> " . $this->lang['user_invoice'] . "</a></li>
 						<li class=\"divider\"></li>
-						<li>
-							<div style=\"white-space: nowrap; text-align: center\">
-								<a href=\"" . $PHP_SELF . "?mod=billing&c=statistics&m=users&p=user/" . urldecode( $login ) . "\" class=\"tip\" data-original-title=\"" . $this->lang['user_stats'] . "\"><i class=\"icon-bar-chart icon-2x\"></i></a>
-								<a href=\"" . $PHP_SELF . "?mod=billing&c=transactions&p=user/" . urldecode( $login ) . "\" class=\"tip\" data-original-title=\"" . $this->lang['user_history'] . "\"><i class=\"icon-money icon-2x\"></i></a>
-								<a href=\"" . $PHP_SELF . "?mod=billing&c=refund&p=user/" . urldecode( $login ) . "\" class=\"tip\" data-original-title=\"" . $this->lang['user_refund'] . "\"><i class=\"icon-credit-card icon-2x\"></i></a>
-								<a href=\"" . $PHP_SELF . "?mod=billing&c=invoice&p=user/" . urldecode( $login ) . "\" class=\"tip\" data-original-title=\"" . $this->lang['user_invoice'] . "\"><i class=\"icon-folder-open-alt icon-2x\"></i></a>
-							</div>
-						</li>
-					</ul>
+						<li><a href=\"" . $PHP_SELF . "?mod=billing&c=users&login=" . urldecode( $login ) . "\"><i class=\"fa fa-money\"></i> " . $this->lang['user_balance'] . "</a></li>					</ul>
 				</div>";
 	}
 
@@ -607,8 +606,8 @@ HTML;
 		return "<div class=\"btn-group\">
 
 					" . ( $info['config']['status']
-							? "<span class=\"status-success\"><i class=\"icon-info-sign\" style=\"margin-left: 10px; margin-right: 5px; vertical-align: middle\"></i></span>"
-							: "<i class=\"icon-info-sign\" style=\"margin-left: 10px; margin-right: 5px; vertical-align: middle\"></i>" ) . "
+							? "<i class=\"fa fa-toggle-on\" style=\"margin-left: 10px; margin-right: 5px; vertical-align: middle\"></i>"
+							: "<i class=\"fa fa-toggle-off\" style=\"margin-left: 10px; margin-right: 5px; vertical-align: middle\"></i>" ) . "
 
 					<a href=\"#\" target=\"_blank\" data-toggle=\"dropdown\" data-original-title=\"". $this->lang['pay_name'] ."\" class=\"status-info tip\"><b>{$info['title']}</b></a>
 						<ul class=\"dropdown-menu text-left\">
@@ -643,10 +642,16 @@ HTML;
 
 	# Вывод страницы
 	#
-	function ThemeEchoHeader()
+	function ThemeEchoHeader( $section_name = '' )
 	{
 		$JSmenu = "";
-
+		$Topmenu = array('?mod=billing' => $this->lang['desc'] );
+		
+		if( $section_name )
+		{
+			$Topmenu[] = $section_name;
+		}
+		
 		foreach( array( 'transactions', 'statistics', 'invoice', 'users') as $name )
 		{
 			$JSmenu .= $_GET['c'] == $name
@@ -662,15 +667,18 @@ HTML;
 		}
 
 		$JSmenu = "$('li .active').after('{$JSmenu}');";
-
+		/*
 		$Informers = $this->TopInformer();
 
 		if( $Informers )
 		{
 			$JSback .= '$(".padding-right").html(\''.$Informers.'\');';
-		}
+		}*/
 
-		echoheader( $this->lang['title'], $this->lang['desc'] . " v." . $this->config['version'] );
+		echoheader( "<div style=\"line-height: 1.2384616;\">
+						<span class=\"text-semibold\">{$this->lang['title']}</span> <br />
+						<span style=\"font-size: 11px\">{$this->lang['desc']} {$this->config['version']}</span>
+					</div>", $Topmenu );
 
 		echo "<link href=\"engine/modules/billing/theme/styles.css\" media=\"screen\" rel=\"stylesheet\" type=\"text/css\" />";
 
@@ -684,13 +692,12 @@ HTML;
 
 	function ThemeEchoFoother()
 	{
-		return "<p style=\"text-align:center\">
-					[ " . $this->lang['support'] . " ]
-					<br />
-					&copy 2012 - 2017 <a href=\"javascript: DLEalert('" . $this->lang['dev'] . "', '" . $this->lang['dev_title'] . "')\">mr_Evgen</a>
-				</p>";
+		global $is_loged_in, $skin_footer;
 
-		echofooter();
+		$skin_footer = preg_replace('~<div class=\"footer text-muted text-size-small\">\s+(.*?)\s+<\/div>~s', "<div class=\"footer text-muted text-size-small\">&copy 2012 - 2018 <a href=\"https://dle-billing.ru/\" target=\"_blank\">DLE-Billing</a></div>", $skin_footer);
+		
+		if( $is_loged_in ) return $skin_footer;
+		else return $skin_not_logged_footer;
 	}
 
 	# Информеры
@@ -764,17 +771,19 @@ HTML;
 	#
 	function ThemeHeadStart( $title, $toolbar = '' )
 	{
-		return "<div id=\"general\" class=\"box\">
-					<div class=\"box-header\">
-						<div class=\"title\">{$title}</div>
-						<ul class=\"box-toolbar\">
-							<li class=\"toolbar-link\">{$toolbar}</li>
-						</ul>
+		return "<div class=\"panel panel-default\">
+					<div class=\"panel-heading\">
+						{$title}
+						<div class=\"heading-elements\">
+							<ul class=\"icons-list\">
+								{$toolbar}
+							</ul>
+						</div>
 					</div>
-
-					<div class=\"box-content\">
-						<form action=\"\" enctype=\"multipart/form-data\" method=\"post\" name=\"frm_billing\" >";
-
+					
+					<div class=\"table-responsive\">
+							
+					<form action=\"\" enctype=\"multipart/form-data\" method=\"post\" name=\"frm_billing\" >";
 	}
 
 	function ThemeHeadClose()

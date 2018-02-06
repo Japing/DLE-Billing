@@ -56,7 +56,7 @@ Class ADMIN
 
 		# Форма
 		#
-		$this->Dashboard->ThemeEchoHeader();
+		$this->Dashboard->ThemeEchoHeader( $Payments[$Name]['title'] );
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['paysys_on'],
@@ -67,25 +67,25 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['paysys_name'],
 			$this->Dashboard->lang['paysys_name_desc'],
-			"<input name=\"save_con[title]\" class=\"edit bk\" type=\"text\" value=\"" . $Payment['title'] ."\" style=\"width: 100%\">"
+			"<input name=\"save_con[title]\" class=\"form-control\" type=\"text\" value=\"" . $Payment['title'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['paysys_currency'],
 			$this->Dashboard->lang['paysys_currency_desc'],
-			"<input name=\"save_con[currency]\" class=\"edit bk\" type=\"text\" value=\"" . $Payment['currency'] ."\"  style=\"width: 100%\">"
+			"<input name=\"save_con[currency]\" class=\"form-control\" type=\"text\" value=\"" . $Payment['currency'] ."\"  style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['paysys_minimum'],
 			$this->Dashboard->lang['paysys_minimum_desc'],
-			"<input name=\"save_con[minimum]\" class=\"edit bk\" type=\"text\" value=\"" . $Payment['minimum'] ."\"  style=\"width: 100%\">"
+			"<input name=\"save_con[minimum]\" class=\"form-control\" type=\"text\" value=\"" . $Payment['minimum'] ."\"  style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['paysys_max'],
 			$this->Dashboard->lang['paysys_max_desc'],
-			"<input name=\"save_con[max]\" class=\"edit bk\" type=\"text\" value=\"" . $Payment['max'] ."\"  style=\"width: 100%\">"
+			"<input name=\"save_con[max]\" class=\"form-control\" type=\"text\" value=\"" . $Payment['max'] ."\"  style=\"width: 100%\">"
 		);
 
 		$tabs[] = array(
@@ -99,7 +99,7 @@ Class ADMIN
 		$this->Dashboard->ThemeAddTR(
 			array(
 				"<center>" . $this->Dashboard->API->Convert( 1 ) . "&nbsp;" . $this->Dashboard->API->Declension( 1 ) . "</center>",
-				"<input name=\"save_con[convert]\" class=\"edit bk\" type=\"text\" value=\"" . $Payment['convert'] . "\" style=\"width: 100%\">"
+				"<input name=\"save_con[convert]\" class=\"form-control\" type=\"text\" placeholder=\"1\" value=\"" . $Payment['convert'] . "\" style=\"width: 100%\">"
 			)
 		);
 

@@ -57,13 +57,13 @@ function usersAdd( name )
 	{
 		users.clean(name);
 
-		$('#user_'+name).html('<i class=\"icon-plus\" style=\"margin-left: 10px; vertical-align: middle\"></i>');
+		$('#user_'+name).html('<i class=\"fa fa-plus\" style=\"margin-left: 10px; vertical-align: middle\"></i>');
 	}
 	else
 	{
 		users[users.length+1] = name;
 
-		$('#user_' + name).html('<span class=\'status-success\'><b><i class=\'icon-plus\' style=\'margin-left: 10px; vertical-align: middle\'></i></b></span>');
+		$('#user_' + name).html('<i class=\'fa fa-check\' style=\'margin-left: 10px; vertical-align: middle\'></i>');
 	}
 
 	users.clean(undefined);
@@ -77,12 +77,12 @@ function urlAdded()
 {
     url_items ++;
 
-    var field = '<div id="url-item-' + url_items + '" class="url-item" style="padding-top: 5px">';
+    var field = '<div id="url-item-' + url_items + '" class="url-item">';
 
-    field += '<span onClick="urlRemove(' + url_items + ')"><i class="icon-trash"></i></span>';
-    field += '<input name="save_url[' + url_items + '][start]" type="text" placeholder="start..." value="">';
-    field += '<i class="icon-refresh"></i>';
-    field += '<input name="save_url[' + url_items + '][end]" type="text" placeholder="end..." value="">';
+    field += '<span onClick="urlRemove(' + url_items + ')"><i class="fa fa-trash"></i></span>';
+    field += '<input name="save_url[' + url_items + '][start]" class="form-control" style="width: 90%; text-align: center"  type="text" placeholder="start..." value="">';
+    field += '<i class="fa fa-refresh"></i>';
+    field += '<input name="save_url[' + url_items + '][end]" class="form-control" style="width: 90%; text-align: center"  type="text" placeholder="end..." value="">';
 
     field += '</div>';
 

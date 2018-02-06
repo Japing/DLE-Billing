@@ -37,7 +37,7 @@ Class ADMIN
 			$this->Dashboard->ThemeMsg( $this->Dashboard->lang['ok'], $this->Dashboard->lang['history_max_remove_ok'], $PHP_SELF . "?mod=billing&c=transactions" );
 		}
 
-		$this->Dashboard->ThemeEchoHeader();
+		$this->Dashboard->ThemeEchoHeader( $this->Dashboard->lang['menu_2'] );
 
 		# Поиск транзакций
 		#
@@ -96,23 +96,23 @@ Class ADMIN
 		{
 			$this->Dashboard->LQuery->DbWhere( array( "history_user_name = '{s}' " => $Get['user'] ) );
 
-			$PerPage = 20;
+			$PerPage = 25;
 			$Data = $this->Dashboard->LQuery->DbGetHistory( $Get['page'], $PerPage );
 		}
 
-		$Content = $Get['user'] ? $this->Dashboard->MakeMsgInfo( "<a href='{$PHP_SELF}?mod=billing&c=transactions' title='{$this->Dashboard->lang['remove']}' class='btn btn-red'><i class='icon-remove'></i> " . $Get['user'] . "</a> {$this->Dashboard->lang['info_login']}", "icon-user", "blue") : "";
+		$Content = $Get['user'] ? $this->Dashboard->MakeMsgInfo( "<a href='{$PHP_SELF}?mod=billing&c=transactions' title='{$this->Dashboard->lang['remove']}' class='btn bg-danger btn-sm btn-raised position-left legitRipple' style='vertical-align: middle;'><i class='fa fa-repeat'></i> " . $Get['user'] . "</a> <span style='vertical-align: middle;'>{$this->Dashboard->lang['info_login']}</span>", "icon-user", "blue") : "";
 
 		# Список
 		#
 		$this->Dashboard->ThemeAddTR( array(
-				'<td width="1%">#</td>',
-				'<td>'.$this->Dashboard->lang['history_code'].'</td>',
-				'<td>'.$this->Dashboard->lang['history_date'].'</td>',
-				'<td>'.$this->Dashboard->lang['history_summa'].'</td>',
-				'<td>'.$this->Dashboard->lang['history_user'].'</td>',
-				'<td>'.$this->Dashboard->lang['history_balance'].'</td>',
-				'<td>'.$this->Dashboard->lang['history_comment'].'</td>',
-				'<td width="5%"><center><input type="checkbox" value="" name="massact_list[]" onclick="checkAll(this)" /></center></td>',
+				'<th width="1%">#</th>',
+				'<th>'.$this->Dashboard->lang['history_code'].'</th>',
+				'<th>'.$this->Dashboard->lang['history_date'].'</th>',
+				'<th>'.$this->Dashboard->lang['history_summa'].'</th>',
+				'<th>'.$this->Dashboard->lang['history_user'].'</th>',
+				'<th>'.$this->Dashboard->lang['history_balance'].'</th>',
+				'<th width="10%">'.$this->Dashboard->lang['history_comment'].'</th>',
+				'<th width="5%"><center><input type="checkbox" value="" name="massact_list[]" onclick="checkAll(this)" /></center></th>',
 		));
 
 		$NumData = $this->Dashboard->LQuery->DbGetHistoryNum();
@@ -129,7 +129,7 @@ Class ADMIN
 				$this->Dashboard->API->Convert( $Value['history_balance'] ) . "&nbsp;	" . $this->Dashboard->API->Declension( $Value['history_balance'] ),
 				(
 					strlen( $Value['history_text'] ) > 20
-						? '<a href="#" onClick="logShowDialogByID( \'#log_' . $Value['history_id'] . '\' ); return false">' . mb_substr( strip_tags( $Value['history_text'] ), 0, 40, $this->Dashboard->dle['charset'] ) . '..</a>'
+						? '<a href="#" onClick="logShowDialogByID( \'#log_' . $Value['history_id'] . '\' ); return false">' . mb_substr( strip_tags( $Value['history_text'] ), 0, 14, $this->Dashboard->dle['charset'] ) . '..</a>'
 						: $Value['history_text']
 				),
 				"<center>" . $this->Dashboard->MakeCheckBox("massact_list[]", false, $Value['history_id'], false) . '</center>
@@ -156,7 +156,7 @@ Class ADMIN
 		else
 		{
 			$ContentList .= $this->Dashboard->ThemePadded(
-				"<ul class=\"pagination pagination-sm\" style=\"float: left\">" .
+				"<ul class=\"pagination pagination-sm\">" .
 								$this->Dashboard->API->Pagination(
 									$NumData,
 									$Get['page'],
@@ -165,7 +165,9 @@ Class ADMIN
 									"<li class=\"active\"><span>{page_num}</span></li>",
 									$PerPage
 								) .
-				"</ul><span style=\"float: right\">" . $this->Dashboard->MakeButton("mass_remove", $this->Dashboard->lang['remove'], "red") . "</span>"
+				"</ul><div style=\"float: right\">
+					<input class=\"btn bg-teal btn-sm btn-raised legitRipple\" type=\"submit\" name=\"mass_remove\" value=\"" . $this->Dashboard->lang['remove'] . "\">
+					</div>"
 			);
 		}
 
@@ -180,13 +182,13 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['search_pcode'],
 			$this->Dashboard->lang['search_pcode_desc'],
-			"<input name=\"search_plugin\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_plugin'] ."\" style=\"width: 100%\">"
+			"<input name=\"search_plugin\" class=\"form-control\" type=\"text\" value=\"" . $_POST['search_plugin'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['search_pid'],
 			$this->Dashboard->lang['search_pcode_desc'],
-			"<input name=\"search_plugin_id\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_plugin_id'] ."\" style=\"width: 100%\">"
+			"<input name=\"search_plugin_id\" class=\"form-control\" type=\"text\" value=\"" . $_POST['search_plugin_id'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
@@ -198,19 +200,19 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['history_search_sum'],
 			$this->Dashboard->lang['history_search_sum_desc'],
-			"<input name=\"search_summa\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_summa'] ."\" style=\"width: 100%\">"
+			"<input name=\"search_summa\" class=\"form-control\" type=\"text\" value=\"" . $_POST['search_summa'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['search_user'],
 			$this->Dashboard->lang['search_user_desc'],
-			"<input name=\"search_login\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_login'] ."\" style=\"width: 100%\">"
+			"<input name=\"search_login\" class=\"form-control\" type=\"text\" value=\"" . $_POST['search_login'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['search_comm'],
 			$this->Dashboard->lang['search_comm_desc'],
-			"<input name=\"search_comment\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_comment'] ."\" style=\"width: 100%\">"
+			"<input name=\"search_comment\" class=\"form-control\" type=\"text\" value=\"" . $_POST['search_comment'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(

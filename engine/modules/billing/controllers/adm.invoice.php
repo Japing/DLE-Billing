@@ -74,9 +74,9 @@ Class ADMIN
 			);
 		}
 
-		$this->Dashboard->ThemeEchoHeader();
+		$this->Dashboard->ThemeEchoHeader( $this->Dashboard->lang['menu_4'] );
 
-		$Content = $Get['user'] ? $this->Dashboard->MakeMsgInfo( "<a href='{$PHP_SELF}?mod=billing&c=invoice' title='{$this->Dashboard->lang['remove']}' class='btn btn-red'><i class='icon-remove'></i> " . $Get['user'] . "</a> {$this->Dashboard->lang['info_login']}", "icon-user", "blue") : "";
+		$Content = $Get['user'] ? $this->Dashboard->MakeMsgInfo( "<a href='{$PHP_SELF}?mod=billing&c=invoice' title='{$this->Dashboard->lang['remove']}' class='btn bg-danger btn-sm btn-raised position-left legitRipple' style='vertical-align: middle;'><i class='fa fa-repeat'></i> " . $Get['user'] . "</a> <span style='vertical-align: middle;'>{$this->Dashboard->lang['info_login']}</span>", "icon-user", "blue") : "";
 
 		# Поиск
 		#
@@ -152,15 +152,14 @@ Class ADMIN
 		$NumData = $this->Dashboard->LQuery->DbGetInvoiceNum();
 
 		$this->Dashboard->ThemeAddTR( array(
-		 	'<td width="1%">#</td>',
-			'<td>'.$this->Dashboard->lang['invoice_str_payok'].'</td>',
-			'<td>'.$this->Dashboard->lang['invoice_str_get'].'</td>',
-			'<td>'.$this->Dashboard->lang['history_date'].'</td>',
-			'<td>'.$this->Dashboard->lang['invoice_str_ps'].'</td>',
-			'<td>'.$this->Dashboard->lang['history_user'].'</td>',
-			'<td>'.$this->Dashboard->lang['invoice_str_status'].'</td>',
-			'<td>'.$this->Dashboard->lang['invoice_info'].'</td>',
-			'<td width="5%"><center><input type="checkbox" value="" name="massact_list[]" onclick="checkAll(this)" /></center></td>',
+		 	'<th width="1%">#</th>',
+			'<th>'.$this->Dashboard->lang['invoice_str_payok'].'</th>',
+			'<th>'.$this->Dashboard->lang['invoice_str_get'].'</th>',
+			'<th>'.$this->Dashboard->lang['history_date'].'</th>',
+			'<th>'.$this->Dashboard->lang['invoice_str_ps'].'</th>',
+			'<th>'.$this->Dashboard->lang['history_user'].'</th>',
+			'<th>'.$this->Dashboard->lang['invoice_str_status'].'</th>',
+			'<th width="5%"><center><input type="checkbox" value="" name="massact_list[]" onclick="checkAll(this)" /></center></th>',
 		));
 
 		foreach( $Data as $Value )
@@ -174,13 +173,23 @@ Class ADMIN
 				$this->Dashboard->ThemeInfoUser( $Value['invoice_user_name'] ),
 				'<center>' .
 					( $Value['invoice_date_pay']
-						? '<span class="label bt_lable_green">' . $this->Dashboard->ThemeChangeTime( $Value['invoice_date_pay'] ) . '</span>'
+						? '<span class="label bt_lable_green"><a href="#" onClick="logShowDialogByID( \'#invoice_' . $Value['invoice_id'] . '\' ); return false">' . $this->Dashboard->ThemeChangeTime( $Value['invoice_date_pay'] ) . '</a></span>'
 						: '<span class="label bt_lable_blue">' . $this->Dashboard->lang['refund_wait'] . '</span>' ) .
 				'</center>',
-				$Value['invoice_payer_requisites'],
 				'<center>' .
 					$this->Dashboard->MakeCheckBox("massact_list[]", false, $Value['invoice_id'], false) .
-				'</center>'
+				'</center>
+				<div id="invoice_' . $Value['invoice_id'] . '" title="' . $this->Dashboard->lang['history_search_oper'] . $Value['invoice_id'] . '" style="display:none">
+						<b>' . $this->Dashboard->lang['072_req'] . '</b>
+						<br />
+						' . $Value['invoice_payer_requisites'] . '
+						<br /><br />
+						<p>
+							<b>' . $this->Dashboard->lang['072_payer_info'] . '</b>
+							<br />
+							' . $Value['invoice_payer_info'] . '
+						</p>
+					</div>'
 			) );
 		}
 
@@ -189,7 +198,7 @@ Class ADMIN
 		if( $NumData )
 		{
 			$ContentList .= $this->Dashboard->ThemePadded( '
-					<div class="pull-left" style="margin:7px; vertical-align: middle">
+					<div class="pull-left" style="margin: 15px">
 						<ul class="pagination pagination-sm">
 							' . $this->Dashboard->API->Pagination(
 									$NumData,
@@ -201,14 +210,14 @@ Class ADMIN
 								) . '
 						</ul>
 					</div>
-					<select name="act" class="uniform">
-						<option value="ok">' . $this->Dashboard->lang['invoice_edit_1'] . '</option>
-						<option value="no">' . $this->Dashboard->lang['invoice_edit_2'] . '</option>
-						<option value="ok_pay">' . $this->Dashboard->lang['invoice_edit_3'] . '</option>
-						<option value="remove">' . $this->Dashboard->lang['remove'] . '</option>
-					</select>
-					' . $this->Dashboard->MakeButton("act_do", $this->Dashboard->lang['act'], "gold"),
-					'box-footer', 'right' );
+					<div style="float: right">
+						<select name="act" class="uniform">
+							<option value="ok">' . $this->Dashboard->lang['invoice_edit_1'] . '</option>
+							<option value="no">' . $this->Dashboard->lang['invoice_edit_2'] . '</option>
+							<option value="ok_pay">' . $this->Dashboard->lang['invoice_edit_3'] . '</option>
+							<option value="remove">' . $this->Dashboard->lang['remove'] . '</option>
+						</select>
+						' . $this->Dashboard->MakeButton("act_do", $this->Dashboard->lang['act'], "gold") . '</div>' );
 		}
 		else
 		{
@@ -234,25 +243,25 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['invoice_summa'],
 			$this->Dashboard->lang['invoice_summa_desc'],
-			"<input name=\"search_summa\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_summa'] ."\" style=\"width: 100%\">"
+			"<input name=\"search_summa\" class=\"form-control\" type=\"text\" value=\"" . $_POST['search_summa'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['invoice_search_sum_get'],
 			$this->Dashboard->lang['invoice_search_sum_get_desc'],
-			"<input name=\"search_summa_get\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_summa_get'] ."\" style=\"width: 100%\">"
+			"<input name=\"search_summa_get\" class=\"form-control\" type=\"text\" value=\"" . $_POST['search_summa_get'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['search_user'],
 			$this->Dashboard->lang['search_user_desc'],
-			"<input name=\"search_login\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_login'] ."\" style=\"width: 100%\">"
+			"<input name=\"search_login\" class=\"form-control\" type=\"text\" value=\"" . $_POST['search_login'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['invoice_payer_requisites'],
 			$this->Dashboard->lang['invoice_payer_requisites_desc'],
-			"<input name=\"search_payer_requisites\" class=\"edit bk\" type=\"text\" value=\"" . $_POST['search_payer_requisites'] ."\" style=\"width: 100%\">"
+			"<input name=\"search_payer_requisites\" class=\"form-control\" type=\"text\" value=\"" . $_POST['search_payer_requisites'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(

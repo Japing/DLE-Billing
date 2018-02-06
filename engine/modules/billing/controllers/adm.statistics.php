@@ -102,7 +102,7 @@ Class ADMIN
 	#
 	function main()
 	{
-		$this->Dashboard->ThemeEchoHeader();
+		$this->Dashboard->ThemeEchoHeader( $this->Dashboard->lang['menu_5'] );
 
 		# График
 		#
@@ -192,7 +192,7 @@ Class ADMIN
 					<td><a href="{$PHP_SELF}?mod=billing&c=invoice">{$this->Dashboard->lang['statistics_dashboard_invoices']}</a></td>
 					<td><a href="{$PHP_SELF}?mod=billing&c=transactions">{$this->Dashboard->lang['statistics_dashboard_search_reansfer']}</a></td>
 				</tr>
-			</table>
+			</table><br />
 HTML;
 
 		$Content .= $this->Dashboard->ThemeHeadClose();
@@ -227,7 +227,7 @@ HTML;
 			return $this->Dashboard->ThemeMsg( $this->Dashboard->lang['error'], $this->Dashboard->lang['statistics_users_error'], "{$PHP_SELF}?mod=billing&c=statistics&m=users&p=user/{$this->Dashboard->member_id['name']}" );
 		}
 
-		$this->Dashboard->ThemeEchoHeader();
+		$this->Dashboard->ThemeEchoHeader( $this->Dashboard->lang['menu_5'] );
 
 		$Content = $this->menu();
 
@@ -255,10 +255,10 @@ HTML;
 										</td>
 										<td class='bt_table_right' style='border: none'>
 											<a href='/index.php?do=pm&doaction=newpm&username={$Result['name']}' target='_blank' class='tip' title='{$this->Dashboard->lang['statistics_users_9']}'>
-												<i class='icon-comments' style='font-size: 24px;margin-right: 10px; color: #428bca'></i>
+												<i class='fa fa-comments' style='font-size: 24px;margin-right: 10px; color: #428bca'></i>
 											</a>
 											<a href='/index.php?do=feedback&user={$Result['user_id']}' target='_blank' class='tip' title='{$this->Dashboard->lang['statistics_users_10']}'>
-												<i class='icon-envelope' class='settingsb' style='font-size: 24px; color: #428bca'></i>
+												<i class='fa fa-envelope' class='settingsb' style='font-size: 24px; color: #428bca'></i>
 											</a>
 										</td>
 									</tr>
@@ -268,7 +268,7 @@ HTML;
 						<div class='col-md-4'>
 							<form method='post' style='text-align:center'>" .
 									$this->Dashboard->MakeMsgInfo(
-										"<input name=\"search_user\" class=\"edit bk\" type=\"text\" style=\"width: 60%\" value=\"" . $Result['name'] ."\" required>" .
+										"<input name=\"search_user\" class=\"form-control\" type=\"text\" style=\"width: 60%\" value=\"" . $Result['name'] ."\" required>" .
 										$this->Dashboard->MakeButton("search_btn", $this->Dashboard->lang['users_btn'], "green"),
 										"icon-user",
 										"green"
@@ -324,7 +324,7 @@ HTML;
 	#
 	function billings()
 	{
-		$this->Dashboard->ThemeEchoHeader();
+		$this->Dashboard->ThemeEchoHeader( $this->Dashboard->lang['menu_5'] );
 
 		$Content .= $this->menu();
 
@@ -354,7 +354,7 @@ HTML;
 
 		$GetMainStatistics = $this->Dashboard->LQuery->db->super_query( sprintf( $this->_Querys['plugins_main'], $this->_StartTime, $this->_EndTime ) );
 
-		$this->Dashboard->ThemeEchoHeader();
+		$this->Dashboard->ThemeEchoHeader( $this->Dashboard->lang['menu_5'] );
 
 		$Content .= $this->menu();
 
@@ -458,7 +458,7 @@ HTML;
 			$this->Dashboard->ThemeMsg( $this->Dashboard->lang['ok'], $this->Dashboard->lang['statistics_clean_1_ok'] );
 		}
 
-		$this->Dashboard->ThemeEchoHeader();
+		$this->Dashboard->ThemeEchoHeader( $this->Dashboard->lang['menu_5'] );
 
 		$Content = $this->menu();
 		$Content .= $this->Dashboard->MakeMsgInfo( $this->Dashboard->lang['statistics_clean_info'], "icon-warning-sign", "red");
@@ -962,7 +962,7 @@ HTML;
 		if( $user_group[$userInfo['user_group']]['time_limit'] )
 		{
 			if( $userInfo['time_limit'] )
-				$answer .= "&nbsp;<a style=\"cursor: info\" data-toggle=\"dropdown\" data-original-title=\"" . $this->lang['statistics_users_21'] . langdate( "j F Y H:i", $userInfo['time_limit'] ) . "\" class=\"status-info tip\"><i class=\"icon-info-sign\"></i></a>";
+				$answer .= "&nbsp;<a style=\"cursor: info\" data-toggle=\"dropdown\" data-original-title=\"" . $this->lang['statistics_users_21'] . langdate( "j F Y H:i", $userInfo['time_limit'] ) . "\" class=\"status-info tip\"><i class=\"fa fa-info-sign\"></i></a>";
 			else
 				$answer .= $this->Dashboard->lang['statistics_users_22'];
 		}
@@ -1003,7 +1003,7 @@ HTML;
 				<div class="row box-section">
 					<ul class="settingsb" style="width: 100%">
 			 			{$return_menu}
-			 			<li style="width: 15%"><a href="{$PHP_SELF}?mod=billing" class="tip" title="" data-original-title="{$this->Dashboard->lang['statistics_6']}"><i class="icon-reply"></i><br />{$this->Dashboard->lang['statistics_6_title']}</a></li>
+			 			<li style="width: 17%"><a href="{$PHP_SELF}?mod=billing" class="tip" title="" data-original-title="{$this->Dashboard->lang['statistics_6']}"><i class="fa fa-reply"></i><br />{$this->Dashboard->lang['statistics_6_title']}</a></li>
 					</ul>
 	     		</div>
 	   		</div>
@@ -1030,12 +1030,12 @@ HTML;
 					    <div class='btn-group'>
 							{$_times_list}
 					    </div>
-						<span style='margin-left: 100px'>
-							" . $this->Dashboard->MakeCalendar("date_edit_start", date( "Y-m-j", $this->_StartTime ) ) . "
+						<div>
+							" . $this->Dashboard->MakeCalendar("date_edit_start", date( "Y-m-j", $this->_StartTime ), 'width: 25%; text-align: center' ) . "
 								-
-							" . $this->Dashboard->MakeCalendar("date_edit_end", date( "Y-m-j", $this->_EndTime ) ) . "
+							" . $this->Dashboard->MakeCalendar("date_edit_end", date( "Y-m-j", $this->_EndTime ), 'width: 25%; text-align: center' ) . "
 							" . $this->Dashboard->MakeButton("sort", $this->Dashboard->lang['statistics_show'], "green") . "
-						</span>
+						</div>
 					</div>
 				</form>";
 	}

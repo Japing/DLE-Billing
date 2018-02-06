@@ -37,19 +37,19 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['paysys_name'],
 			$this->Dashboard->lang['refund_name_desc'],
-			"<input name=\"save_con[name]\" class=\"edit bk\" type=\"text\" style=\"width: 100%\" value=\"" . $_Config['name'] ."\">"
+			"<input name=\"save_con[name]\" class=\"form-control\" type=\"text\" style=\"width: 100%\" value=\"" . $_Config['name'] ."\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['transfer_minimum'],
 			$this->Dashboard->lang['transfer_minimum_desc'],
-			"<input name=\"save_con[minimum]\" class=\"edit bk\" type=\"text\" style=\"width: 20%\" value=\"" . $_Config['minimum'] ."\"> " . $this->Dashboard->API->Declension( $_Config['minimum'] )
+			"<input name=\"save_con[minimum]\" class=\"form-control\" type=\"text\" style=\"width: 20%\" value=\"" . $_Config['minimum'] ."\"> " . $this->Dashboard->API->Declension( $_Config['minimum'] )
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['refund_commision'],
 			$this->Dashboard->lang['refund_commision_desc'],
-			"<input name=\"save_con[com]\" class=\"edit bk\" type=\"text\" style=\"width: 20%\" value=\"" . $_Config['com'] ."\">%"
+			"<input name=\"save_con[com]\" class=\"form-control\" type=\"text\" style=\"width: 20%\" value=\"" . $_Config['com'] ."\">%"
 		);
 
 		$Content = $this->Dashboard->PanelPlugin('plugins/transfer', 'icon-cogs', $_Config['status'] );

@@ -126,7 +126,7 @@ Class ADMIN
 			}
 		}
 
-		$this->Dashboard->ThemeEchoHeader();
+		$this->Dashboard->ThemeEchoHeader( $this->Dashboard->lang['menu_3'] );
 
 		# Поиск в базе
 		#
@@ -170,17 +170,17 @@ Class ADMIN
 		# Список пользователей
 		#
 		$this->Dashboard->ThemeAddTR( array(
-			'<td>'.$this->Dashboard->lang['users_tanle_login'].'</td>',
-			'<td>'.$this->Dashboard->lang['users_tanle_email'].'</td>',
-			'<td>'.$this->Dashboard->lang['users_tanle_group'].'</td>',
-			'<td>'.$this->Dashboard->lang['users_tanle_datereg'].'</td>',
-			'<td>'.$this->Dashboard->lang['users_tanle_balance'].'</td>'
+			'<th>'.$this->Dashboard->lang['users_tanle_login'].'</th>',
+			'<th>'.$this->Dashboard->lang['users_tanle_email'].'</th>',
+			'<th>'.$this->Dashboard->lang['users_tanle_group'].'</th>',
+			'<th>'.$this->Dashboard->lang['users_tanle_datereg'].'</th>',
+			'<th>'.$this->Dashboard->lang['users_tanle_balance'].'</th>'
 		) );
 
 		foreach( $Data as $Value )
 		{
 			$this->Dashboard->ThemeAddTR( array(
-				"<span onClick=\"usersAdd( '" . $Value['name'] . "' )\" id=\"user_".$Value['name']."\" style=\"cursor: pointer\"><i class=\"icon-plus\" style=\"margin-left: 10px; vertical-align: middle\"></i></span>" .
+				"<span onClick=\"usersAdd( '" . $Value['name'] . "' )\" id=\"user_".$Value['name']."\" style=\"cursor: pointer\"><i class=\"fa fa-plus\" style=\"margin-left: 10px; vertical-align: middle\"></i></span>" .
 				$this->Dashboard->ThemeInfoUser( $Value['name'] ),
 				$Value['email'],
 				$user_group[$Value['user_group']]['group_name'],
@@ -207,13 +207,13 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['users_label'],
 			$this->Dashboard->lang['users_label_desc'],
-			"<input name=\"search_name\" class=\"edit bk\" type=\"text\" style=\"width: 100%\" value=\"" . $_POST['search_name'] ."\">"
+			"<input name=\"search_name\" class=\"form-control\" type=\"text\" style=\"width: 100%\" value=\"" . $_POST['search_name'] ."\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['user_se_balance'],
 			$this->Dashboard->lang['user_se_balance_desc'],
-			"<input name=\"search_balance\" class=\"edit bk\" type=\"text\" style=\"width: 100%\" value=\"" . $_POST['search_balance'] ."\">"
+			"<input name=\"search_balance\" class=\"form-control\" type=\"text\" style=\"width: 100%\" value=\"" . $_POST['search_balance'] ."\">"
 		);
 
 		$ContentSearch = $this->Dashboard->ThemeParserStr();
@@ -270,7 +270,7 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['users_login'],
 			$this->Dashboard->lang['users_login_desc'],
-			"<input name=\"edit_name\" id=\"edit_name\" class=\"edit bk\" style=\"width: 100%\" value=\"". $_GET['login'] ."\" type=\"text\">"
+			"<input name=\"edit_name\" id=\"edit_name\" class=\"form-control\" style=\"width: 100%\" value=\"". $_GET['login'] ."\" type=\"text\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
@@ -282,13 +282,13 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['users_summa'],
 			$this->Dashboard->lang['users_summa_desc'],
-			"<input name=\"edit_summa\" class=\"edit bk\" type=\"text\" style=\"width: 20%\"> " . $this->Dashboard->API->Declension( 10 )
+			"<input name=\"edit_summa\" class=\"form-control\" type=\"text\" style=\"width: 20%\"> " . $this->Dashboard->API->Declension( 10 )
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['users_comm'],
 			$this->Dashboard->lang['users_comm_desc'],
-			"<input name=\"edit_comm\" class=\"edit bk\" type=\"text\" style=\"width: 100%\">"
+			"<input name=\"edit_comm\" class=\"form-control\" type=\"text\" style=\"width: 100%\">"
 		);
 
 		$tabs = array();
@@ -302,7 +302,7 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['users_group'],
 			$this->Dashboard->lang['users_group_desc'],
-			 "<select name=\"edit_group\" class=\"uniform\"><option value=\"\"></option>" . $this->Dashboard->GetGroups(false, 5) . "</select>"
+			 "<select name=\"edit_group\" class=\"uniform\"><option value=\"\"> </option>" . $this->Dashboard->GetGroups(false, 5) . "</select>"
 		);
 
 		$this->Dashboard->ThemeAddStr(
@@ -314,7 +314,7 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['users_summa'],
 			$this->Dashboard->lang['users_summa_desc'],
-			"<input name=\"edit_summa_group\" class=\"edit bk\" type=\"text\"> " . $this->Dashboard->API->Declension( 10 )
+			"<input name=\"edit_summa_group\" class=\"form-control\" style=\"width: 20%\" type=\"text\"> " . $this->Dashboard->API->Declension( 10 )
 		);
 
 		$tabs[] = array(

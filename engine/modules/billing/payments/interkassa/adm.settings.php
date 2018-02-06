@@ -18,19 +18,19 @@ Class Payment
 		$Form[] = array(
 			"Идентификатор магазина (ID):",
 			"Можно получить в <a href='https://new.interkassa.com/account/checkout' target='_blank'>личном кабинете</a>.",
-			"<input name=\"save_con[login]\" class=\"edit bk\" type=\"text\" value=\"" . $config['login'] ."\" style=\"width: 100%\">"
+			"<input name=\"save_con[login]\" class=\"form-control\" type=\"text\" value=\"" . $config['login'] ."\" style=\"width: 100%\">"
 		);
 
 		$Form[] = array(
 			"Ваш текущий секретный ключ:",
 			"<a href='https://new.interkassa.com/account/checkout' target='_blank'>Настройка кассы</a> вкладка 'Безопасность'",
-			"<input name=\"save_con[secret]\" class=\"edit bk\" type=\"password\" value=\"" . $config['secret'] ."\" style=\"width: 100%\">"
+			"<input name=\"save_con[secret]\" class=\"form-control\" type=\"password\" value=\"" . $config['secret'] ."\" style=\"width: 100%\">"
 		);
 
 		$Form[] = array(
 			"Валюта платежа:",
 			"Например: RUB или UAH",
-			"<input name=\"save_con[paycurrency]\" class=\"edit bk\" type=\"text\" value=\"" . $config['paycurrency'] ."\" style=\"width: 100%\">"
+			"<input name=\"save_con[paycurrency]\" class=\"form-control\" type=\"text\" value=\"" . $config['paycurrency'] ."\" style=\"width: 100%\">"
 		);
 		
 		return $Form;

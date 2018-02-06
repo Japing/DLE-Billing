@@ -142,6 +142,7 @@ Class ADMIN
 
 		# Список информеров для плагинов
 		#
+		/*
 		$arrInformers = array( 'invoice' => $this->Dashboard->lang['invoice_new'] );
 
 		foreach( $this->Dashboard->Plugins() as $name => $config )
@@ -153,9 +154,9 @@ Class ADMIN
 				$arrConInformer = explode(":", $conInformer );
 				$arrInformers[$name.".".$arrConInformer[1]] = $config['title'] . " &raquo; " . $arrConInformer[0];
 			}
-		}
+		}*/
 
-		$this->Dashboard->ThemeEchoHeader();
+		$this->Dashboard->ThemeEchoHeader( $this->Dashboard->lang['menu_1'] );
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_status'],
@@ -178,7 +179,7 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_currency'],
 			$this->Dashboard->lang['settings_currency_desc'],
-			"<input name=\"save_con[currency]\" class=\"edit bk\" type=\"text\" style=\"width: 100%\" value=\"" . $this->Dashboard->config['currency'] ."\" style=\"width: 50%\">"
+			"<input name=\"save_con[currency]\" class=\"form-control\" type=\"text\" style=\"width: 100%\" value=\"" . $this->Dashboard->config['currency'] ."\" style=\"width: 50%\">"
 		);
 
 		$tabs[] = array(
@@ -190,44 +191,44 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_admin'],
 			$this->Dashboard->lang['settings_admin_desc'],
-			"<input name=\"save_con[admin]\" class=\"edit bk\" type=\"text\" value=\"" . $this->Dashboard->config['admin'] ."\" style=\"width: 100%\">"
+			"<input name=\"save_con[admin]\" class=\"form-control\" type=\"text\" value=\"" . $this->Dashboard->config['admin'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_page'],
 			$this->Dashboard->lang['settings_page_desc'],
-			"{$this->Dashboard->dle['http_home_url']}<input name=\"save_con[page]\" class=\"edit bk\" type=\"text\" value=\"" . $this->Dashboard->config['page'] ."\" style=\"width: 100px\">.html"
+			"{$this->Dashboard->dle['http_home_url']}<input name=\"save_con[page]\" class=\"form-control\" type=\"text\" value=\"" . $this->Dashboard->config['page'] ."\" style=\"width: 100px\">.html"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_field'],
 			$this->Dashboard->lang['settings_field_desc'],
-			"<input name=\"save_con[fname]\" class=\"edit bk\" type=\"text\" value=\"" . $this->Dashboard->config['fname'] ."\" style=\"width: 100%\">"
+			"<input name=\"save_con[fname]\" class=\"form-control\" type=\"text\" value=\"" . $this->Dashboard->config['fname'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_start'],
 			$this->Dashboard->lang['settings_start_desc'],
-			"<input name=\"save_con[start]\" class=\"edit bk\" type=\"text\" value=\"" . $this->Dashboard->config['start'] ."\" style=\"width: 100%\">"
+			"<input name=\"save_con[start]\" class=\"form-control\" type=\"text\" value=\"" . $this->Dashboard->config['start'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_summ'],
 			$this->Dashboard->lang['settings_summ_desc'],
-			"<input name=\"save_con[sum]\" class=\"edit bk\" type=\"text\" value=\"" . $this->Dashboard->config['sum'] ."\" style=\"width: 20%\">"
+			"<input name=\"save_con[sum]\" class=\"form-control\" type=\"text\" value=\"" . $this->Dashboard->config['sum'] ."\" style=\"width: 20%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_paging'],
 			$this->Dashboard->lang['settings_paging_desc'],
-			"<input name=\"save_con[paging]\" class=\"edit bk\" type=\"text\" value=\"" . $this->Dashboard->config['paging'] ."\" style=\"width: 20%\">"
+			"<input name=\"save_con[paging]\" class=\"form-control\" type=\"text\" value=\"" . $this->Dashboard->config['paging'] ."\" style=\"width: 20%\">"
 		);
 
-		$this->Dashboard->ThemeAddStr(
+		/*$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_informers'],
 			$this->Dashboard->lang['settings_informers_desc'],
 			$this->Dashboard->GetSelect( $arrInformers, "informers[]", explode(",", $this->Dashboard->config['informers'] ), true  )
-		);
+		);*/
 
 		$tabs[] = array(
 				'id' => 'more',
@@ -244,13 +245,13 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_key'],
 			$this->Dashboard->lang['settings_key_desc'],
-			"<input name=\"save_con[secret]\" class=\"edit bk\" type=\"text\" value=\"" . $this->Dashboard->config['secret'] ."\" style=\"width: 100%\">"
+			"<input name=\"save_con[secret]\" class=\"form-control\" type=\"text\" value=\"" . $this->Dashboard->config['secret'] ."\" style=\"width: 100%\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_catalog'],
 			$this->Dashboard->lang['settings_catalog_desc'],
-			"<input name=\"save_con[url_catalog]\" class=\"edit bk\" type=\"text\" value=\"" . $this->Dashboard->config['url_catalog'] ."\" style=\"width: 100%\">"
+			"<input name=\"save_con[url_catalog]\" class=\"form-control\" type=\"text\" value=\"" . $this->Dashboard->config['url_catalog'] ."\" style=\"width: 100%\">"
 		);
 
 		$tabs[] = array(
@@ -264,24 +265,24 @@ Class ADMIN
 		$this->Dashboard->ThemeAddTR(
 			array(
 				$this->Dashboard->lang['mail_pay_ok'],
-				"<div style=\"text-align: center; margin-top: 15px\">" . $this->Dashboard->MakeICheck("save_con[mail_payok_pm]", $this->Dashboard->config['mail_payok_pm'] ) . "</div>",
-				"<div style=\"text-align: center; margin-top: 15px\">" . $this->Dashboard->MakeICheck("save_con[mail_payok_email]", $this->Dashboard->config['mail_payok_email'] ) . "</div>"
+				"<div style=\"text-align: center; margin-top: 5px\">" . $this->Dashboard->MakeICheck("save_con[mail_payok_pm]", $this->Dashboard->config['mail_payok_pm'] ) . "</div>",
+				"<div style=\"text-align: center; margin-top: 5px\">" . $this->Dashboard->MakeICheck("save_con[mail_payok_email]", $this->Dashboard->config['mail_payok_email'] ) . "</div>"
 			)
 		);
 
 		$this->Dashboard->ThemeAddTR(
 			array(
 				$this->Dashboard->lang['mail_pay_new'],
-				"<div style=\"text-align: center; margin-top: 15px\">" . $this->Dashboard->MakeICheck("save_con[mail_paynew_pm]", $this->Dashboard->config['mail_paynew_pm'] ) . "</div>",
-				"<div style=\"text-align: center; margin-top: 15px\">" . $this->Dashboard->MakeICheck("save_con[mail_paynew_email]", $this->Dashboard->config['mail_paynew_email'] ) . "</div>"
+				"<div style=\"text-align: center; margin-top: 5px\">" . $this->Dashboard->MakeICheck("save_con[mail_paynew_pm]", $this->Dashboard->config['mail_paynew_pm'] ) . "</div>",
+				"<div style=\"text-align: center; margin-top: 5px\">" . $this->Dashboard->MakeICheck("save_con[mail_paynew_email]", $this->Dashboard->config['mail_paynew_email'] ) . "</div>"
 			)
 		);
 
 		$this->Dashboard->ThemeAddTR(
 			array(
 				$this->Dashboard->lang['mail_balance'],
-				"<div style=\"text-align: center; margin-top: 15px\">" . $this->Dashboard->MakeICheck("save_con[mail_balance_pm]", $this->Dashboard->config['mail_balance_pm'] ) . "</div>",
-				"<div style=\"text-align: center; margin-top: 15px\">" . $this->Dashboard->MakeICheck("save_con[mail_balance_email]", $this->Dashboard->config['mail_balance_email'] ) . "</div>"
+				"<div style=\"text-align: center; margin-top: 5px\">" . $this->Dashboard->MakeICheck("save_con[mail_balance_pm]", $this->Dashboard->config['mail_balance_pm'] ) . "</div>",
+				"<div style=\"text-align: center; margin-top: 5px\">" . $this->Dashboard->MakeICheck("save_con[mail_balance_email]", $this->Dashboard->config['mail_balance_email'] ) . "</div>"
 			)
 		);
 
@@ -304,17 +305,17 @@ Class ADMIN
 
 			$_NumURL ++;
 
-			$_ListURL .= '<div class="url-item" id="url-item-' . $_NumURL . '" class="url-item" style="padding-top: 5px">
-				<span onClick="urlRemove(' . $_NumURL . ')"><i class="icon-trash"></i></span>
-				<input name="save_url[' . $_NumURL . '][start]" type="text" placeholder="start..." value="' . $url[0] . '">
-				<i class="icon-refresh"></i>
-				<input name="save_url[' . $_NumURL . '][end]" type="text" placeholder="end..." value="' . $url[1] . '">
+			$_ListURL .= '<div class="url-item" id="url-item-' . $_NumURL . '" class="url-item" >
+				<span onClick="urlRemove(' . $_NumURL . ')"><i class="fa fa-trash"></i></span>
+					<input name="save_url[' . $_NumURL . '][start]" class="form-control" style="width: 90%; text-align: center" type="text" placeholder="start..." value="' . $url[0] . '">
+				<i class="fa fa-refresh"></i>
+					<input name="save_url[' . $_NumURL . '][end]" class="form-control" style="width: 90%; text-align: center" type="text" placeholder="end..." value="' . $url[1] . '">
 			</div>';
 		}
 
 		$ChangeURL = '<div class="url-list">
 						<div class="url-item" style="line-height: 80px">
-							<buttom class="btn btn-green" style="width: 40px" onClick="urlAdded()">+</buttom>
+							<buttom class="btn bg-teal btn-raised position-center legitRipple" style="width: 40px" onClick="urlAdded()">+ </buttom>
 						</div>
 						' . $_ListURL . '
 					  </div>
@@ -354,10 +355,10 @@ Class ADMIN
 		$Content = $this->Dashboard->ThemeHeadStart( $this->Dashboard->lang['main_log'] );
 
 		$this->Dashboard->ThemeAddTR( array(
-			'<td width="15%">' . $this->Dashboard->lang['logger_text_1'] . '</td>',
-			'<td>' . $this->Dashboard->lang['logger_text_2'] . '</td>',
-			'<td>' . $this->Dashboard->lang['logger_text_3'] . '</td>',
-			'<td>' . $this->Dashboard->lang['logger_text_4'] . '</td>'
+			'<th width="15%">' . $this->Dashboard->lang['logger_text_1'] . '</th>',
+			'<th>' . $this->Dashboard->lang['logger_text_2'] . '</th>',
+			'<th>' . $this->Dashboard->lang['logger_text_3'] . '</th>',
+			'<th>' . $this->Dashboard->lang['logger_text_4'] . '</th>'
 		));
 
 		if( $_LogFile = file_exists( 'pay.logger.php' ) )
@@ -403,7 +404,7 @@ Class ADMIN
 		else
 		{
 			$Content .= $this->Dashboard->ThemeParserTable();
-			$Content .= $this->Dashboard->ThemePadded( 'Пусто', '' );
+			$Content .= $this->Dashboard->ThemePadded( $this->Dashboard->lang['nullpadding'], '' );
 		}
 
 

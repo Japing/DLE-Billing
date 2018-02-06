@@ -80,14 +80,14 @@ Class ADMIN
 		$this->Dashboard->ThemeEchoHeader();
 
 		$this->Dashboard->ThemeAddTR( array(
-			'<td width="1%"><b>#</b></td>',
-			'<td>'.$this->Dashboard->lang['refund_summa'].'</td>',
-			'<td>'.$this->Dashboard->lang['refund_commision_list'].'</td>',
-			'<td>'.$this->Dashboard->lang['refund_requisites'].'</td>',
-			'<td>'.$this->Dashboard->lang['history_date'].'</td>',
-			'<td>'.$this->Dashboard->lang['history_user'].'</td>',
-			'<td>'.$this->Dashboard->lang['status'].'</td>',
-			'<td><center><input type="checkbox" value="" name="remove_list[]" onclick="checkAll(this)" /></center></td>'
+			'<th width="1%"><b>#</b></th>',
+			'<th>'.$this->Dashboard->lang['refund_summa'].'</th>',
+			'<th>'.$this->Dashboard->lang['refund_commision_list'].'</th>',
+			'<th>'.$this->Dashboard->lang['refund_requisites'].'</th>',
+			'<th>'.$this->Dashboard->lang['history_date'].'</th>',
+			'<th>'.$this->Dashboard->lang['history_user'].'</th>',
+			'<th>'.$this->Dashboard->lang['status'].'</th>',
+			'<th><center><input type="checkbox" value="" name="remove_list[]" onclick="checkAll(this)" /></center></th>'
 		));
 
 		# Поиск
@@ -202,19 +202,19 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['refund_se_summa'],
 			$this->Dashboard->lang['refund_se_summa_desc'],
-			"<input name=\"search_summa\" value=\"" . $_POST['search_summa'] . "\" class=\"edit bk\" style=\"width: 100%\" type=\"text\">"
+			"<input name=\"search_summa\" value=\"" . $_POST['search_summa'] . "\" class=\"form-control\" style=\"width: 100%\" type=\"text\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['refund_se_req'],
 			$this->Dashboard->lang['refund_se_req_desc'],
-			"<input name=\"search_requisites\" value=\"" . $_POST['search_requisites'] . "\" class=\"edit bk\" style=\"width: 100%\" type=\"text\">"
+			"<input name=\"search_requisites\" value=\"" . $_POST['search_requisites'] . "\" class=\"form-control\" style=\"width: 100%\" type=\"text\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['search_user'],
 			$this->Dashboard->lang['search_user_desc'],
-			"<input name=\"search_login\" value=\"" . $_POST['search_login'] . "\" class=\"edit bk\" style=\"width: 100%\" type=\"text\">"
+			"<input name=\"search_login\" value=\"" . $_POST['search_login'] . "\" class=\"form-control\" style=\"width: 100%\" type=\"text\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
@@ -261,26 +261,26 @@ Class ADMIN
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['refund_email'],
 			$this->Dashboard->lang['refund_email_desc'],
-			"<input name=\"save_con[email]\" class=\"edit bk\" type=\"text\" style=\"width:100%\" value=\"" . $_Config['email'] ."\">"
+			"<input name=\"save_con[email]\" class=\"form-control\" type=\"text\" style=\"width:100%\" value=\"" . $_Config['email'] ."\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['paysys_name'],
 			$this->Dashboard->lang['refund_name_desc'],
-			"<input name=\"save_con[name]\" class=\"edit bk\" type=\"text\" style=\"width:100%\" value=\"" . $_Config['name'] ."\">"
+			"<input name=\"save_con[name]\" class=\"form-control\" type=\"text\" style=\"width:100%\" value=\"" . $_Config['name'] ."\">"
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['refund_minimum'],
 			$this->Dashboard->lang['refund_minimum_desc'],
-			"<input name=\"save_con[minimum]\" class=\"edit bk\" type=\"text\" style=\"width:20%\" value=\"" . $_Config['minimum'] ."\"> "
+			"<input name=\"save_con[minimum]\" class=\"form-control\" type=\"text\" style=\"width:20%\" value=\"" . $_Config['minimum'] ."\"> "
 			. $this->Dashboard->API->Declension( $_Config['minimum'] )
 		);
 
 		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['refund_commision'],
 			$this->Dashboard->lang['refund_commision_desc'],
-			"<input name=\"save_con[com]\" class=\"edit bk\" type=\"text\" style=\"width:20%\" value=\"" . $_Config['com'] ."\"> %"
+			"<input name=\"save_con[com]\" class=\"form-control\" type=\"text\" style=\"width:20%\" value=\"" . $_Config['com'] ."\"> %"
 		);
 
 		$this->Dashboard->ThemeAddStr(

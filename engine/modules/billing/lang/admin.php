@@ -2,9 +2,14 @@
 
 return array
 (
+	# 0.7.2
+	#
+	'072_req' => "Реквизиты плательщика: ",
+	'072_payer_info' => "Информация о платеже: ",
+
 	# 0.7
 	#
-	'history_search_oper' => "Операция:",
+	'history_search_oper' => "Операция: ",
 	'history_transaction' => "Транзакция: ",
 	'history_transaction_text' => "Описание платежа:",
 	'history_search_oper_desc' => "Выберите тип транзакции: доход, расход или все операции",
@@ -20,6 +25,7 @@ return array
 	'invoice_was_pay' => "Оплачен ",
 	'pay_msgOk' => "Пополнен счёт через %s на %s %s",
 
+	'nullpadding' => "<div style='padding: 10px'>Пусто</div>",
 	'null' => "Пусто",
 
 	'date_from' => "от ",
@@ -90,19 +96,19 @@ return array
 	'catalog_get_update' => "Получить обновление",
 
 	'users_group_stats' => array(
-		"<td>Группа</td>",
-		"<td>Пользователей</td>",
-		"<td>Минимальный баланс</td>",
-		"<td>Максимальный</td>",
-		"<td>Всего на счетах</td>"
+		"<th>Группа</th>",
+		"<th>Пользователей</th>",
+		"<th>Минимальный баланс</th>",
+		"<th>Максимальный</th>",
+		"<th>Всего на счетах</th>"
 	),
 
 	'payment_convert_text' => "Конвертация",
 	'payment_convert_in' => "Интеграция",
 
 	'payment_convert' => array(
-		"<td width='50%'>Сайт</td>",
-		"<td>Платежная система</td>"
+		"<th width='50%'><center>Сайт</center></th>",
+		"<th>Платежная система</th>"
 	),
 
 	# settings, url
@@ -194,9 +200,9 @@ return array
 		"<td>Сообщение в личную почту</td>",
 		"<td>Сообщение на email</td>"
 	),
-	'mail_pay_ok' => "<p><b>Квитанция оплачена</b></p><p>Пользователь успешно завершил оплату на сайте платежной системы</p>",
-	'mail_pay_new' => "<p><b>Новая квитанция</b></p><p>Пользователь начал процесс пополнения баланса</p>",
-	'mail_balance' => "<p><b>Баланс изменён</b></p><p>Баланс пользователя на сайте был изменён (не платежной системой)</p>",
+	'mail_pay_ok' => "<h8 class=\"media-heading text-semibold\">Квитанция оплачена</h8><p>Пользователь успешно завершил оплату на сайте платежной системы</p>",
+	'mail_pay_new' => "<h8 class=\"media-heading text-semibold\">Новая квитанция</h8><p>Пользователь начал процесс пополнения баланса</p>",
+	'mail_balance' => "<h8 class=\"media-heading text-semibold\">Баланс изменён</h8><p>Баланс пользователя на сайте был изменён (не платежной системой)</p>",
 
 	'ok' => "Действие выполнено",
 	'info' => "Системное сообщение",
@@ -330,7 +336,7 @@ return array
 	'history_balance' => "Остаток на балансе",
 	'history_comment' => "Комментарий",
 	'history_paging' => "Страницы",
-	'history_no' => "Записей не найдено",
+	'history_no' => "<div style='padding: 10px'>Записей не найдено</div>",
 	'history_search' => "Поиск",
 	'history_search_btn' => "Найти",
 	'history_search_btn_null' => "Сбросить",
@@ -387,14 +393,6 @@ return array
 	'title' => "Баланс пользователя",
 	'main' => "Панель управления",
 	'desc' => "Управление модулем DLE-Billing",
-	'support' => "<a href=\"https://dle-billing.ru/\" target=\"_blank\">официальный сайт</a>",
-	'dev' => "	<ul class=\'settingsb\'>
-					<li style=\'min-width:90px\'><a href=\'https://dle-billing.ru/\' target=\'_blank\'><i class=\'icon-home\'></i><br> Домашняя страница</a></li>
-					<li style=\'min-width:90px\'><a href=\'https://dle-billing.ru/partner.html\' target=\'_blank\'><i class=\'icon-money\'></i><br>Партнерам</a></li>
-					<li style=\'min-width:90px\'><a href=\'https://dle-billing.ru/doc/main.html\' target=\'_blank\'><i class=\'icon-magic\'></i><br>Документация</a></li>
-					<li style=\'min-width:90px\'><a href=\'https://github.com/mr-Evgen/dle-billing-module\' target=\'_blank\'><i class=\'icon-github\'></i><br>Исходный код</a></li>
-				</ul>",
-	'dev_title' => "Разработка и поддержка",
 	'more' => "Показать больше",
 	'go_plugin' => "Перейти к плагину ",
 	'no_plugin' => "Плагины не установлены!",
@@ -474,7 +472,7 @@ return array
 	'statistics_info2' => "доход пользователей составил",
 	'statistics_info3' => "расход ",
 	'statistics_diagram_1' => "График расходов пользователей",
-	'statistics_null' => "<p style='text-align: center; margin: 10px'>В указанные промежутки времени платежи не совершались.</p>",
+	'statistics_null' => "<p style='text-align: center; padding: 10px'>В указанные промежутки времени платежи не совершались.</p>",
 	'statistics_minus' => "Расход",
 	'statistics_plus' => "Доход",
 	'statistics_pay' => "Пополнение через биллинг",
@@ -491,19 +489,19 @@ return array
 
 	# 0.5.5
 	#
-	'statistics_0' => "<i class='icon-money'></i><br />Расчетный доход",
+	'statistics_0' => "<i class='fa fa-money'></i><br />Расчетный доход",
 	'statistics_0_title' => "Привлечено средств",
 	'statistics_1' => "Общая статистика",
 	'statistics_2' => "Используемые способы пополнения баланса",
 	'statistics_2_tab_2' => "Объем привлеченных средств",
-	'statistics_2_title' => "<i class='icon-bar-chart'></i><br />Платежные системы",
+	'statistics_2_title' => "<i class='fa fa-bar-chart'></i><br />Платежные системы",
 	'statistics_3' => "Объем расходов и доходов пользователей",
 	'statistics_3_tab2' => "Классификация по плагинам",
-	'statistics_3_title' => "<i class='icon-cogs'></i><br />Статистика плагинов",
+	'statistics_3_title' => "<i class='fa fa-cogs'></i><br />Статистика плагинов",
 	'statistics_4' => "Статистика пользователя",
-	'statistics_4_title' => "<i class='icon-group'></i><br />Пользователи",
+	'statistics_4_title' => "<i class='fa fa-group'></i><br />Пользователи",
 	'statistics_5_title' => "Сбросить статистику",
-	'statistics_5' => "<i class='icon-trash'></i><br />Сбросить статистику",
+	'statistics_5' => "<i class='fa fa-trash'></i><br />Сбросить статистику",
 	'statistics_6_title' => "Вернуться",
 	'statistics_6' => "Главное меню",
 
