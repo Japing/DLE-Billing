@@ -38,9 +38,9 @@ Class ADMIN
 
 		# Загрузить файл пс
 		#
-		if( file_exists( MODULE_PATH . '/payments/' . $Name . '/adm.settings.php' ) )
+		if( file_exists( DLEPlugins::Check( MODULE_PATH . '/payments/' . $Name . '/adm.settings.php' ) ) )
 		{
-			require_once MODULE_PATH . '/payments/' . $Name . '/adm.settings.php';
+			require_once DLEPlugins::Check( MODULE_PATH . '/payments/' . $Name . '/adm.settings.php' );
 		}
 		else
 		{

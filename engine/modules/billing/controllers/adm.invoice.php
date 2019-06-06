@@ -159,7 +159,7 @@ Class ADMIN
 			'<th>'.$this->Dashboard->lang['invoice_str_ps'].'</th>',
 			'<th>'.$this->Dashboard->lang['history_user'].'</th>',
 			'<th>'.$this->Dashboard->lang['invoice_str_status'].'</th>',
-			'<th width="5%"><center><input type="checkbox" value="" name="massact_list[]" onclick="checkAll(this)" /></center></th>',
+			'<th width="5%"><center><input type="checkbox" class="icheck" value="" name="massact_list[]" onclick="checkAll(this)" /></center></th>',
 		));
 
 		foreach( $Data as $Value )

@@ -418,10 +418,10 @@ Class ADMIN
 	{
 		if( in_array( $msg_id, array( 0, 1, 5, 6, 8, 9, 10, 14 ) )  )
 		{
-			return '<center><span class="status-success"><b><i class="icon-ok-sign"></i></b></span></center>';
+			return '<center><span class="text-success"><b><i class="fa fa-check-circle"></i></b></span></center>';
 		}
 
-		return '<center><span class="status-error"><b><i class="icon-exclamation-sign"></i></b></span></center>';
+		return '<center><span class="text-danger"><b><i class="fa fa-exclamation-circle"></i></b></span></center>';
 	}
 }
 ?>

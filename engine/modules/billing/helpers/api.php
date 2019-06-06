@@ -134,7 +134,7 @@ Class BillingAPI
 		#
 		if( $user_email )
 		{
-			include_once ENGINE_DIR . '/classes/mail.class.php';
+			include_once DLEPlugins::Check( ENGINE_DIR . '/classes/mail.class.php' );
 
 			$mail = new dle_mail( $config, true );
 
@@ -148,7 +148,7 @@ Class BillingAPI
 
 	# Постраничная навигация
 	#
-	function Pagination( $all_count, $this_page, $link, $tpl_link, $tpl_this_num, $per_page )
+	function Pagination( $all_count, $this_page, $link, $tpl_link, $tpl_this_num, $per_page = '' )
 	{
 		$all_count = intval( $all_count ) ? intval( $all_count ) : 1;
 		$this_page = intval( $this_page ) ? intval( $this_page ) : 1;
@@ -263,9 +263,9 @@ Class BillingAPI
 		{
 			if ( in_array($name, array(".", "..", "/", "index.php", ".htaccess")) ) continue;
 
-			if( file_exists( MODULE_PATH . '/plugins/' . $name . '/hook.class.php' ) )
+			if( file_exists( DLEPlugins::Check( MODULE_PATH . '/plugins/' . $name . '/hook.class.php' ) ) )
 			{
-				$Hook = include( MODULE_PATH . '/plugins/' . $name . '/hook.class.php' );
+				$Hook = include( DLEPlugins::Check( MODULE_PATH . '/plugins/' . $name . '/hook.class.php' ) );
 
 				$Hook->plugin = @include MODULE_DATA . '/plugin.' . $name . '.php';
 				$Hook->api = $this;

@@ -20,13 +20,13 @@ define( 'MODULE_DATA', ENGINE_DIR . "/data/billing" );
 #
 if( ! file_exists( MODULE_DATA . '/config.php' ) )
 {
-	require_once MODULE_PATH . '/helpers/install.php';
+	require_once DLEPlugins::Check(MODULE_PATH . '/helpers/install.php');
 
 	exit();
 }
 
-require_once MODULE_PATH . '/helpers/library.querys.php';
-require_once MODULE_PATH . '/helpers/api.php';
-require_once MODULE_PATH . '/helpers/dashboard.php';
+require_once DLEPlugins::Check(MODULE_PATH . '/helpers/library.querys.php');
+require_once DLEPlugins::Check(MODULE_PATH . '/helpers/api.php');
+require_once DLEPlugins::Check(MODULE_PATH . '/helpers/dashboard.php');
 
 Dashboard::Start();

@@ -33,7 +33,7 @@ Class Dashboard
 
 	# ..данные модуля
 	#
-	var $version = '0.7.2';
+	var $version = '0.7.3';
 
 	var $config = array();
 	var $lang = array();
@@ -59,7 +59,7 @@ Class Dashboard
 	{
 		global $config, $member_id, $_TIME, $db, $dle_login_hash;
 
-		$this->lang 	= include MODULE_PATH . '/lang/admin.php';
+		$this->lang 	= include DLEPlugins::Check( MODULE_PATH . '/lang/admin.php' );
 		$this->config 	= include MODULE_DATA . '/config.php';
 
 		$this->LQuery 	= new LibraryQuerys( $db, $this->config['fname'], $_TIME );
@@ -89,19 +89,19 @@ Class Dashboard
 		#
 		if( $this->version > $this->config['version'] )
 		{
-			require_once MODULE_PATH . '/controllers/adm.upgrade.php';
+			require_once DLEPlugins::Check( MODULE_PATH . '/controllers/adm.upgrade.php' );
 		}
 		# Подключение страницы
 		#
-		else if( file_exists( MODULE_PATH . '/controllers/adm.' . mb_strtolower( $c ) . '.php' ) )
+		else if( file_exists( DLEPlugins::Check( MODULE_PATH . '/controllers/adm.' . mb_strtolower( $c ) . '.php' ) ) )
 		{
-			require_once MODULE_PATH . '/controllers/adm.' . mb_strtolower( $c ) . '.php';
+			require_once DLEPlugins::Check( MODULE_PATH . '/controllers/adm.' . mb_strtolower( $c ) . '.php' );
 		}
 		# Подключение плагина
 		#
-		else if( file_exists( MODULE_PATH . '/plugins/' . mb_strtolower( $c ) . '/adm.main.php' ) )
+		else if( file_exists( DLEPlugins::Check( MODULE_PATH . '/plugins/' . mb_strtolower( $c ) . '/adm.main.php' ) ) )
 		{
-			require_once MODULE_PATH . '/plugins/' . mb_strtolower( $c ) . '/adm.main.php';
+			require_once DLEPlugins::Check( MODULE_PATH . '/plugins/' . mb_strtolower( $c ) . '/adm.main.php' );
 		}
 		else
 			return $this->ThemeMsg(
@@ -666,6 +666,8 @@ HTML;
 								: '<li><a href="'.$PHP_SELF.'?mod=billing&c='.$name.'"> &raquo; '.$config['title'].'</a></li>';
 		}
 
+		$JSmenu = "<ul>" . $JSmenu . "</ul>";
+		
 		$JSmenu = "$('li .active').after('{$JSmenu}');";
 		/*
 		$Informers = $this->TopInformer();
@@ -732,9 +734,9 @@ HTML;
 		{
 			$arrParsInformer = explode(".", $strInformer );
 
-			if( file_exists( MODULE_PATH . '/plugins/' . $arrParsInformer[0] . '/' . $arrParsInformer[1] . '.php' ) )
+			if( file_exists( DLEPlugins::Check( MODULE_PATH . '/plugins/' . $arrParsInformer[0] . '/' . $arrParsInformer[1] . '.php' ) ) )
 			{
-				$strInformers .= include MODULE_PATH . '/plugins/' . $arrParsInformer[0] . '/' . $arrParsInformer[1] . '.php';
+				$strInformers .= include DLEPlugins::Check( MODULE_PATH . '/plugins/' . $arrParsInformer[0] . '/' . $arrParsInformer[1] . '.php' );
 			}
 		}
 

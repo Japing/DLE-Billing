@@ -19,8 +19,8 @@ if( ! file_exists( MODULE_DATA . '/config.php' ) )
 	exit();
 }
 
-require_once MODULE_PATH . '/helpers/library.querys.php';
-require_once MODULE_PATH . '/helpers/api.php';
-require_once MODULE_PATH . '/helpers/devtools.php';
+require_once DLEPlugins::Check(MODULE_PATH . '/helpers/library.querys.php');
+require_once DLEPlugins::Check(MODULE_PATH . '/helpers/api.php');
+require_once DLEPlugins::Check(MODULE_PATH . '/helpers/devtools.php');
 
 DevTools::Start();

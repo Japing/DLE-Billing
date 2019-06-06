@@ -15,9 +15,9 @@ while ( $name = readdir($List) )
 {
 	if ( in_array($name, array(".", "..", "/", "index.php", ".htaccess")) ) continue;
 
-	if( file_exists( MODULE_PATH . "/plugins/" . $name . "/template.tags.php" ) )
+	if( file_exists( DLEPlugins::Check( MODULE_PATH . "/plugins/" . $name . "/template.tags.php" ) ) )
 	{
-		include( MODULE_PATH . "/plugins/" . $name . "/template.tags.php" );
+		include( DLEPlugins::Check( MODULE_PATH . "/plugins/" . $name . "/template.tags.php" ) );
 	}
 }
 ?>

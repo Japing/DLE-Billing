@@ -54,7 +54,7 @@ Class DevTools
 	{
 		global $config, $member_id, $_TIME, $db;
 
-		$this->lang 	= include MODULE_PATH . '/lang/cabinet.php';
+		$this->lang 	= include DLEPlugins::Check( MODULE_PATH . '/lang/cabinet.php' );
 		$this->config 	= include MODULE_DATA . '/config.php';
 
 		# ..модуль отключен
@@ -112,15 +112,15 @@ Class DevTools
 
 		# Подключение страницы
 		#
-		if( file_exists( MODULE_PATH . '/controllers/user.' . $RealURL . '.php' ) )
+		if( file_exists( DLEPlugins::Check( MODULE_PATH . '/controllers/user.' . $RealURL . '.php' ) ) )
 		{
-			require_once MODULE_PATH . '/controllers/user.' . $RealURL . '.php';
+			require_once DLEPlugins::Check( MODULE_PATH . '/controllers/user.' . $RealURL . '.php' );
 		}
 		# Подключение плагина
 		#
-		elseif( file_exists( MODULE_PATH . '/plugins/' . $RealURL . '/user.main.php' ) )
+		elseif( file_exists( DLEPlugins::Check( MODULE_PATH . '/plugins/' . $RealURL . '/user.main.php' ) ) )
 		{
-			require_once MODULE_PATH . '/plugins/' . $RealURL . '/user.main.php';
+			require_once DLEPlugins::Check( MODULE_PATH . '/plugins/' . $RealURL . '/user.main.php' );
 		}
 		else
 		{

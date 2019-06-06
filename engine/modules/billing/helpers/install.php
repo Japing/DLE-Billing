@@ -7,7 +7,7 @@
  * @copyright     Copyright (c) 2012-2017, mr_Evgen
  */
 
-$_Lang = include MODULE_PATH . '/lang/admin.php';
+$_Lang = include DLEPlugins::Check( MODULE_PATH . '/lang/admin.php' );
 
 $blank = array
 (
@@ -21,7 +21,7 @@ $blank = array
 	'fname' => "user_balance",
 	'start' => "log/main/page/1",
 	'format' => "float",
-	'version' => "0.7.2",
+	'version' => "0.7.3",
 	'url_catalog' => "https://dle-billing.ru/engine/ajax/extras/plugins.php",
 	'urls' => "refund-cashback"
 );

@@ -90,7 +90,7 @@ Class USER
 			#
 			if( $this->plugin_config['email'] )
 			{
-				include_once ENGINE_DIR . '/classes/mail.class.php';
+				include_once DLEPlugins::Check( ENGINE_DIR . '/classes/mail.class.php' );
 
 				$mail = new dle_mail( $this->DevTools->dle, true );
 

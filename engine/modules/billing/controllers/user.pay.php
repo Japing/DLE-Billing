@@ -207,9 +207,9 @@ Class USER
 			}
 			else
 			{
-				if( file_exists( MODULE_PATH . '/payments/' . $Invoice['invoice_paysys'] . "/adm.settings.php" ) )
+				if( file_exists( DLEPlugins::Check( MODULE_PATH . '/payments/' . $Invoice['invoice_paysys'] . "/adm.settings.php" ) ) )
 				{
-					require_once MODULE_PATH . '/payments/' . $Invoice['invoice_paysys'] . '/adm.settings.php';
+					require_once DLEPlugins::Check( MODULE_PATH . '/payments/' . $Invoice['invoice_paysys'] . '/adm.settings.php' );
 
 					if( $this->DevTools->config['redirect'] )
 					{
@@ -296,9 +296,9 @@ Class USER
 
 		# Подключение класса системы оплаты
 		#
-		if( file_exists( MODULE_PATH . '/payments/' . $GetPaysys . "/adm.settings.php" ) )
+		if( file_exists( DLEPlugins::Check( MODULE_PATH . '/payments/' . $GetPaysys . "/adm.settings.php" ) ) )
 		{
-			require_once MODULE_PATH . '/payments/' . $GetPaysys . '/adm.settings.php';
+			require_once DLEPlugins::Check( MODULE_PATH . '/payments/' . $GetPaysys . '/adm.settings.php' );
 
 			$this->logging( 6 );
 

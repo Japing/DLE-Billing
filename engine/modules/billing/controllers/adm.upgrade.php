@@ -19,7 +19,7 @@ Class ADMIN
 
 			if( substr($name, 0, (iconv_strlen($name)-4)) > $this->Dashboard->config['version'] )
 			{
-			 	return include MODULE_PATH . '/upgrades/' . $name;
+			 	return include DLEPlugins::Check(MODULE_PATH . '/upgrades/' . $name);
 
 				break;
 			}

@@ -95,7 +95,7 @@ Class ADMIN
 								? $_SESSION['billingTimeSector']
 								: 'D';
 
-		$this->_Querys = include MODULE_PATH . '/helpers/statistics.querys.php';
+		$this->_Querys = include DLEPlugins::Check( MODULE_PATH . '/helpers/statistics.querys.php' );
 	}
 
 	# Расчетный доход
