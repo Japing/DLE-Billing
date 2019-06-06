@@ -64,11 +64,11 @@ Class ADMIN
 			$_SESSION['billingTimeStart'] = $_POST['date_edit_start'] ? strtotime( $_POST['date_edit_start'] ) : strtotime(date("Y-m-01"));
 			$_SESSION['billingTimeEnd'] = $_POST['date_edit_end'] ? strtotime( $_POST['date_edit_end'] ) : strtotime(date("Y-m-t"));
 
-			if( ( $_SESSION['billingTimeEnd'] - $_SESSION['billingTimeEnd'] ) > 32140800 )
+			if( ( $_SESSION['billingTimeEnd'] - $_SESSION['billingTimeStart'] ) > 32140800 )
 			{
 				$_SESSION['billingTimeSector'] = "Y";
 			}
-			else if( ( $_SESSION['billingTimeEnd'] - $_SESSION['billingTimeEnd'] ) > 2678400 )
+			else if( ( $_SESSION['billingTimeEnd'] - $_SESSION['billingTimeStart'] ) > 2678400 )
 			{
 				$_SESSION['billingTimeSector'] = "M";
 			}
