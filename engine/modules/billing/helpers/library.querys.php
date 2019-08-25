@@ -210,12 +210,14 @@ Class LibraryQuerys
 
 	# Обновить статус квитанции по ID
 	#
-	function DbInvoiceUpdate( $invoice_id, $wait = false, $check_payer_requisites = '' )
+	function DbInvoiceUpdate( $invoice_id, $wait = false, $invoice_paysys = '', $invoice_pay = '', $check_payer_requisites = '' )
 	{
 		$time = ! $wait ? $this->_TIME : 0;
 
 		$this->db->super_query( "UPDATE " . USERPREFIX . "_billing_invoice
 									SET invoice_date_pay = '" . $time . "',
+										invoice_paysys = '" . $invoice_paysys . "',
+										invoice_pay = '" . $invoice_pay . "',
 										invoice_payer_requisites = '" . $check_payer_requisites . "'
 									WHERE invoice_id = '" . intval( $invoice_id ) . "'" );
 

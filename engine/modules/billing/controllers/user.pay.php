@@ -25,16 +25,17 @@ Class USER
 		#
 		if( isset($_POST['submit']) )
 		{
-			$this->DevTools->LQuery->parsVar( $_POST['billingPayment'], '~[^a-z|0-9|\-|.]*~is' );
+			$this->DevTools->LQuery->DbWhere( array(
+				"invoice_user_name = '{s}' " => $this->DevTools->member_id['name'],
+				"invoice_date_pay = '0' " => 1
+			));
 
-			$_Payment = $PaymentsArray[$_POST['billingPayment']]['config'];
+			if( $this->DevTools->LQuery->DbGetInvoiceNum() >= $this->DevTools->config['invoice_max_num'] )
+			{
+				return $this->DevTools->ThemeMsg( $this->DevTools->lang['pay_error_title'], sprintf( $this->DevTools->lang['invoice_max_num'], $this->DevTools->config['invoice_max_num'] ) );
+			}
 
 			$_Sum = $this->DevTools->LQuery->db->safesql( $_POST['billingPaySum'] );
-
-			$_ToPay = $this->DevTools->API->Convert(
-				$_Sum * $_Payment['convert'],
-				$_Payment['format']
-			);
 
 			$Error = "";
 
@@ -42,31 +43,13 @@ Class USER
 			{
 				$Error = $this->DevTools->lang['pay_hash_error'];
 			}
-			else if( ! $_Payment['status'] )
+			else if( ! $this->DevTools->API->Convert( $_Sum ) )
 			{
-				$Error = $this->DevTools->lang['pay_paysys_error'];
+				$Error = $this->DevTools->lang['pay_incorect_sum'];
 			}
 			else if( ! $_Sum )
 			{
 				$Error = $this->DevTools->lang['pay_summa_error'];
-			}
-			else if( $_ToPay < $_Payment['minimum'] )
-			{
-				$Error = sprintf(
-					$this->DevTools->lang['pay_minimum_error'],
-					$_Payment['title'],
-					$_Payment['minimum'],
-					$this->DevTools->API->Declension( $_Payment['minimum'] )
-				);
-			}
-			else if( $_ToPay > $_Payment['max'] )
-			{
-				$Error = sprintf(
-					$this->DevTools->lang['pay_max_error'],
-					$_Payment['title'],
-					$_Payment['max'],
-					$this->DevTools->API->Declension( $_Payment['max'] )
-				);
 			}
 
 			if( $Error )
@@ -77,18 +60,16 @@ Class USER
 			$_ConvertSum = $this->DevTools->API->Convert( $_POST['billingPaySum'] );
 
 			$_InvoiceID = $this->DevTools->LQuery->DbCreatInvoice(
-				$_POST['billingPayment'],
+				"",
 				$this->DevTools->member_id['name'],
 				$_ConvertSum,
-				$_ToPay
+				""
 			);
 
 			$dataMail = array(
 				'{id}' => $_InvoiceID,
-				'{sum}' => $_ToPay . ' ' . $_Payment['currency'],
 				'{login}' => $this->DevTools->member_id['name'],
 				'{sum_get}' => $_ConvertSum . ' ' . $this->DevTools->API->Declension( $_ConvertSum ),
-				'{payments}' => $_Payment['title'],
 				'{link}' => $this->DevTools->dle['http_home_url'] . $this->DevTools->config['page'] . '.html/pay/waiting/id/' . $_InvoiceID,
 			);
 
@@ -115,40 +96,6 @@ Class USER
 		$TplSelect = $this->DevTools->ThemePregMatch( $Tpl, '~\[payment\](.*?)\[/payment\]~is' );
 
 		$GetSum = $GET['sum'] ? $this->DevTools->API->Convert( $GET['sum'] ) : $this->DevTools->config['sum'];
-
-		# Список доступных пс
-		#
-		if( count( $PaymentsArray ) )
-		{
-			foreach( $PaymentsArray as $Name=>$Info )
-			{
-				$TimeLine = $TplSelect;
-
-				$TimeLine = str_replace("{payment.name}", $Name, $TimeLine);
-				$TimeLine = str_replace("{payment.title}", $Info['config']['title'], $TimeLine);
-
-				$TimeLine = str_replace(
-					"{payment.js}",
-					json_encode( array(
-						'tag'=> $Name,
-						'convert' => $Info['config']['convert'],
-						'currency' => $Info['config']['currency'],
-						'min' => $Info['config']['minimum'],
-						'max' => $Info['config']['max'],
-						'obj' => 'this'
-					)),
-					$TimeLine
-				);
-
-				$PaysysList .= $TimeLine;
-			}
-		}
-		else
-		{
-			$PaysysList = $this->DevTools->lang['pay_main_error'];
-		}
-
-		$this->DevTools->ThemeSetElementBlock( "payment", $PaysysList );
 
 		$this->DevTools->ThemeSetElement( "{module.get.currency}", $this->DevTools->API->Declension( $GetSum ) );
 		$this->DevTools->ThemeSetElement( "{module.currency}", $this->DevTools->config['currency'] );
@@ -199,7 +146,7 @@ Class USER
 			$this->DevTools->ThemeSetElement( "{invoive.get}", $Invoice['invoice_get'] );
 			$this->DevTools->ThemeSetElement( "{invoive.get.currency}", $this->DevTools->API->Declension( $Invoice['invoice_pay'] ) );
 
-			# Квитанция оплачена оплачена
+			# Квитанция оплачена
 			#
 			if( $Invoice['invoice_date_pay'] )
 			{
@@ -207,43 +154,134 @@ Class USER
 			}
 			else
 			{
-				if( file_exists( DLEPlugins::Check( MODULE_PATH . '/payments/' . $Invoice['invoice_paysys'] . "/adm.settings.php" ) ) )
-				{
-					require_once DLEPlugins::Check( MODULE_PATH . '/payments/' . $Invoice['invoice_paysys'] . '/adm.settings.php' );
-
-					if( $this->DevTools->config['redirect'] )
-					{
-						$RedirectForm = '	<script type="text/javascript">
-												window.onload = function()
-												{
-													document.getElementById("paysys_form").submit();
-												}
-											</script>';
-					}
-					else
-					{
-						$RedirectForm = '';
-					}
-
-					$this->DevTools->ThemeSetElement( "{button}", $RedirectForm .
-						$Paysys->Form(
-							$GET['id'],
-							$PaymentsArray[$Invoice['invoice_paysys']]['config'],
-							$Invoice,
-							$this->DevTools->API->Declension( $Invoice['invoice_get'] ),
-							sprintf( $this->DevTools->lang['pay_desc'], $this->DevTools->member_id['name'], $Invoice['invoice_get'], $this->DevTools->API->Declension( $Invoice['invoice_get'] ) )
-						)
-					);
-
-				}
-				else
-				{
-					$this->DevTools->ThemeSetElement( "{button}", $this->DevTools->lang['pay_file_error'] );
-				}
+				header("Cache-Control: no-cache");
 
 				$this->DevTools->ThemeSetElement( "{title}", str_replace("{id}", $GET['id'], $this->DevTools->lang['pay_invoice']) );
 
-				$Content = $this->DevTools->ThemeLoad( "pay/waiting" );
+				if( isset( $_POST['submit'] ) )
+				{
+					$this->DevTools->LQuery->parsVar( $_POST['billingPayment'], '~[^a-z|0-9|\-|.]*~is' );
+
+					$_Payment = $PaymentsArray[$_POST['billingPayment']]['config'];
+
+					$Invoice['invoice_paysys'] = $_POST['billingPayment'];
+					$Invoice['invoice_pay'] = $this->DevTools->API->Convert($Invoice['invoice_get'] * $_Payment['convert'], $_Payment['format']);
+
+					$Error = "";
+
+					if( ! isset( $_POST['billingHash'] ) or $_POST['billingHash'] != $this->DevTools->hash() )
+					{
+						$Error = $this->DevTools->lang['pay_hash_error'];
+					}
+					else if( ! $_Payment['status'] )
+					{
+						$Error = $this->DevTools->lang['pay_paysys_error'];
+					}
+					else if( $Invoice['invoice_get'] < $_Payment['minimum'] )
+					{
+						$Error = sprintf(
+							$this->DevTools->lang['pay_minimum_error'],
+							$_Payment['title'],
+							$_Payment['minimum'],
+							$this->DevTools->API->Declension( $_Payment['minimum'] )
+						);
+					}
+					else if( $Invoice['invoice_get'] > $_Payment['max'] )
+					{
+						$Error = sprintf(
+							$this->DevTools->lang['pay_max_error'],
+							$_Payment['title'],
+							$_Payment['max'],
+							$this->DevTools->API->Declension( $_Payment['max'] )
+						);
+					}
+
+					if( $Error )
+					{
+						return $this->DevTools->ThemeMsg( $this->DevTools->lang['pay_error_title'], $Error );
+					}
+
+					$this->DevTools->ThemeSetElement( "{invoive.payment.tag}", $Invoice['invoice_paysys'] );
+					$this->DevTools->ThemeSetElement( "{invoive.payment.title}", $PaymentsArray[$Invoice['invoice_paysys']]['config']['title'] );
+					$this->DevTools->ThemeSetElement( "{invoive.pay}", $Invoice['invoice_pay'] );
+					$this->DevTools->ThemeSetElement( "{invoive.pay.currency}",  $PaymentsArray[$Invoice['invoice_paysys']]['config']['currency'] );
+
+					if( file_exists( DLEPlugins::Check( MODULE_PATH . '/payments/' . $Invoice['invoice_paysys'] . "/adm.settings.php" ) ) )
+					{
+						require_once DLEPlugins::Check( MODULE_PATH . '/payments/' . $Invoice['invoice_paysys'] . '/adm.settings.php' );
+
+						if( $this->DevTools->config['redirect'] )
+						{
+							$RedirectForm = '	<script type="text/javascript">
+													window.onload = function()
+													{
+														document.getElementById("paysys_form").submit();
+													}
+												</script>';
+						}
+						else
+						{
+							$RedirectForm = '';
+						}
+
+						$this->DevTools->ThemeSetElement( "{button}", $RedirectForm .
+							$Paysys->Form(
+								$GET['id'],
+								$PaymentsArray[$Invoice['invoice_paysys']]['config'],
+								$Invoice,
+								$this->DevTools->API->Declension( $Invoice['invoice_get'] ),
+								sprintf( $this->DevTools->lang['pay_desc'], $this->DevTools->member_id['name'], $Invoice['invoice_get'], $this->DevTools->API->Declension( $Invoice['invoice_get'] ) )
+							)
+						);
+
+					}
+					else
+					{
+						$this->DevTools->ThemeSetElement( "{button}", $this->DevTools->lang['pay_file_error'] );
+					}
+
+					$this->DevTools->ThemeSetElementBlock( "step1", "" );
+					$this->DevTools->ThemeSetElement( "[step2]", "" );
+					$this->DevTools->ThemeSetElement( "[/step2]", "" );
+
+					$Content = $this->DevTools->ThemeLoad( "pay/waiting" );
+				}
+				else
+				{
+					$Tpl = $this->DevTools->ThemeLoad( "pay/waiting" );
+
+					$PaysysList = '';
+
+					$TplSelect = $this->DevTools->ThemePregMatch( $Tpl, '~\[payment\](.*?)\[/payment\]~is' );
+
+					if( count( $PaymentsArray ) )
+					{
+						foreach( $PaymentsArray as $Name=>$Info )
+						{
+							$TimeLine = $TplSelect;
+
+							$TimeLine = str_replace("{payment.name}", $Name, $TimeLine);
+							$TimeLine = str_replace("{payment.title}", $Info['config']['title'], $TimeLine);
+							$TimeLine = str_replace("{payment.topay}", $this->DevTools->API->Convert($Invoice['invoice_get'] * $Info['config']['convert'], $Info['config']['format']), $TimeLine);
+							$TimeLine = str_replace("{payment.currency}", $Info['config']['currency'], $TimeLine);
+
+							$PaysysList .= $TimeLine;
+						}
+					}
+					else
+					{
+						$PaysysList = $this->DevTools->lang['pay_main_error'];
+					}
+
+					$this->DevTools->ThemeSetElementBlock( "payment", $PaysysList );
+					$this->DevTools->ThemeSetElementBlock( "step2", "" );
+					$this->DevTools->ThemeSetElement( "[step1]", "" );
+					$this->DevTools->ThemeSetElement( "[/step1]", "" );
+
+					$this->DevTools->ThemeSetElement( "{button}", "<input type=\"submit\" name=\"submit\" class=\"btn\" value=\"" . $this->DevTools->lang['pay_invoice_now'] . "\">" );
+
+					$Content = "<form action=\"\" method=\"post\"><input type=\"hidden\" name=\"billingHash\" value=\"" . $this->DevTools->Hash() . "\" />" . $this->DevTools->ThemeLoad( "pay/waiting" ) . "</form>";
+				}
 			}
 		}
 
@@ -338,12 +376,8 @@ Class USER
 				die( $this->billingMessage($Paysys, $this->DevTools->lang['pay_invoice_pay']) );
 			}
 
-			if( $Invoice['invoice_paysys'] != $GetPaysys )
-			{
-				$this->logging( 17, $Invoice['invoice_paysys'] );
-
-				die( $this->billingMessage($Paysys, $this->DevTools->lang['pay_invoice_payment']) );
-			}
+			$Invoice['invoice_paysys'] = $GetPaysys;
+			$Invoice['invoice_pay'] =  $this->DevTools->API->Convert($Invoice['invoice_get'] * $PaymentsArray[$GetPaysys]['config']['convert'], $PaymentsArray[$GetPaysys]['config']['format']);
 
 			# .. проверка параметров запроса пс
 			#
@@ -449,7 +483,7 @@ Class USER
 
 		if( ! isset( $Invoice ) or $Invoice['invoice_date_pay'] ) return;
 
-		$this->DevTools->LQuery->DbInvoiceUpdate( $Invoice['invoice_id'], false, $CheckPayerRequisites );
+		$this->DevTools->LQuery->DbInvoiceUpdate( $Invoice['invoice_id'], false, $Invoice['invoice_paysys'], $Invoice['invoice_pay'], $CheckPayerRequisites );
 
 		# .. отправить уведомление
 		#

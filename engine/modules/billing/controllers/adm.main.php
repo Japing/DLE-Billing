@@ -213,6 +213,12 @@ Class ADMIN
 		);
 
 		$this->Dashboard->ThemeAddStr(
+			$this->Dashboard->lang['settings_invoice_max_num'],
+			$this->Dashboard->lang['settings_invoice_max_num_desc'],
+			"<input name=\"save_con[invoice_max_num]\" class=\"form-control\" type=\"text\" value=\"" . $this->Dashboard->config['invoice_max_num'] ."\" style=\"width: 20%\">"
+		);
+
+		$this->Dashboard->ThemeAddStr(
 			$this->Dashboard->lang['settings_summ'],
 			$this->Dashboard->lang['settings_summ_desc'],
 			"<input name=\"save_con[sum]\" class=\"form-control\" type=\"text\" value=\"" . $this->Dashboard->config['sum'] ."\" style=\"width: 20%\">"

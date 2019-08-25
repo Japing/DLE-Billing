@@ -24,7 +24,7 @@ date_default_timezone_set ( $config['date_adjust'] );
 
 if ($config['http_home_url'] == "")
 {
-	$config['http_home_url'] = explode("engine/ajax/feedback.php", $_SERVER['PHP_SELF']);
+	$config['http_home_url'] = explode("engine/ajax/BillingAjax.php", $_SERVER['PHP_SELF']);
 	$config['http_home_url'] = reset($config['http_home_url']);
 	$config['http_home_url'] = "http://".$_SERVER['HTTP_HOST'].$config['http_home_url'];
 }
