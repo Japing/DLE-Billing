@@ -33,7 +33,7 @@ Class Dashboard
 
 	# ..данные модуля
 	#
-	var $version = '0.7.3';
+	var $version = '0.7.4';
 
 	var $config = array();
 	var $lang = array();
