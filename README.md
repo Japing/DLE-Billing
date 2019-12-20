@@ -1,7 +1,7 @@
 # DLE Billing
 
 [![Version](https://img.shields.io/badge/Version-0.7.4-blue.svg?style=flat-square "Version")](https://github.com/Japing/dle-billing/releases)
-![DLE](https://img.shields.io/badge/DLE-13.0--13.2-green.svg?style=flat-square "DLE")
+![DLE](https://img.shields.io/badge/DLE-13.0--13.3-green.svg?style=flat-square "DLE")
 ![Charset](https://img.shields.io/badge/Charset-utf--8-red.svg?style=flat-square "Charset")
 ![jQuery](https://img.shields.io/badge/jQuery-1.11+-yellow.svg?style=flat-square "jQuery")
 
@@ -11,7 +11,7 @@
  **Адаптировал:** Japing
  
 ### **Системные требования**
-- Версия DataLife Engine 13.0 - 13.2
+- Версия DataLife Engine 13.0 - 13.3
 - jQuery v1.11 и выше
 - ЧПУ (mod_rewrite)
 - Кодировка по умолчанию: UTF-8
@@ -27,7 +27,7 @@
 1. Обновите модуль через систему плагинов
 2. Войдите в админ.панель модуля для автоматического обновления бд и файла настроек.
 
-P.S Выкладываю модуль с согласия автора mr_Evgen (evgeny.tc@gmail.com)
+P.S Выкладываю модуль с согласия автора **mr_Evgen** (evgeny.tc@gmail.com)
 
 ------------
 ### Список изменений
