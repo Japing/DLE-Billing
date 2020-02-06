@@ -5,11 +5,15 @@
 ![Charset](https://img.shields.io/badge/Charset-utf--8-red.svg?style=flat-square "Charset")
 ![jQuery](https://img.shields.io/badge/jQuery-1.11+-yellow.svg?style=flat-square "jQuery")
 
- Автоматизируйте приём платежей на сайте с помощью модуля DLE Billing. Предоставте пользователям возможность оплачивать различные товары и услуги вашего сайта.
- 
+Автоматизируйте приём платежей на сайте с помощью модуля DLE Billing. Предоставте пользователям возможность оплачивать различные товары и услуги вашего сайта.
+
  **Автор модуля:** mr_Evgen (evgeny.tc@gmail.com)  
  **Адаптировал:** Japing
- 
+
+### **Плагины для DLE Billing**
+- [Платный переход в группу](https://github.com/Japing/Paygroup-DLE-Billing)
+- [Оплата скрытого текста](https://github.com/Japing/Payhide-DLE-Billing)
+
 ### **Системные требования**
 - Версия DataLife Engine 13.0 - 13.3
 - jQuery v1.11 и выше
